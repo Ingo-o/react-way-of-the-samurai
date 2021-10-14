@@ -1,10 +1,10 @@
 import css from "./Header.module.css";
-import flag from "./../images/flag.jpg";
+import flag from "./flag.jpg";
 
 const Header = () => {
   return (
     <header className={css.header}>
-      <img src={flag} alt="Pirate flag"></img>
+      <img src={flag} alt="Pirate flag" />
     </header>
   );
 };
