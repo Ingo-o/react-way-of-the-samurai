@@ -12,25 +12,35 @@ const DialogItem = (props) => {
 };
 
 const MessageItem = (props) => {
-    const {text} = props;
-    return <div className={css.message}>{text}</div>
+    const {message, id} = props;
+    return <div className={css.message}>{message}</div>
 };
 
 const Dialogs = () => {
+
+    let dialogs = [
+        {id: 1, name: 'Captain Cartman'},
+        {id: 2, name: 'Peter Blood'},
+        {id: 3, name: 'Fleet Master Seahorn'},
+        {id: 4, name: 'Red Beard'},
+        {id: 5, name: 'Rock’n’Rolf'},
+        {id: 6, name: 'Pirate burb'},
+    ]
+
+    let messages = [
+        {id: 1, message: 'Who\'s there?! Oo'},
+        {id: 2, message: 'Yarrrrr!'},
+        {id: 3, message: 'Fifteen men on the dead man\'s chest! Yo-ho-ho, and a bottle of rum!'},
+        {id: 4, message: 'Red Beard is oaf :P'},
+    ]
+
     return (
         <div className={css.dialogs}>
             <div className={css.dialogsItems}>
-                <DialogItem name="Captain Cartman" id="1"/>
-                <DialogItem name="Peter Blood" id="2"/>
-                <DialogItem name="Fleet Master Seahorn" id="3"/>
-                <DialogItem name="Red Beard" id="4"/>
-                <DialogItem name="Rock’n’Rolf" id="5"/>
-                <DialogItem name="Pirate burb" id="6"/>
+                {dialogs.map(d => <DialogItem name={d.name} id={d.id}/>)}
             </div>
             <div className={css.messages}>
-                <MessageItem text="Who's there?! Oo"/>
-                <MessageItem text="Yarrrrr!"/>
-                <MessageItem text="Fifteen men on the dead man's chest! Yo-ho-ho, and a bottle of rum!"/>
+                {messages.map(m => <MessageItem message={m.message} id={m.id}/>)}
             </div>
         </div>
     );
