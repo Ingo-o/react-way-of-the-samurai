@@ -3,7 +3,7 @@ import MyPosts from "./MyPosts/MyPosts";
 import ProfileInfo from "./ProfileInfo/ProfileInfo";
 
 const Profile = (props) => {
-    const { posts } = props;
+    const { posts } = props.profileState;
     return (
         <div>
             <ProfileInfo/>
