@@ -3,8 +3,8 @@ let state = {
         posts: [
             {id: 1, message: 'Aboard!', likesCount: 12},
             {id: 2, message: 'I am not fat i\'m big boned!', likesCount: 2},
-            {id: 2, message: 'Stay away from my gold!', likesCount: 0},
-            {id: 2, message: 'LFM Tank to Deadmines last slot', likesCount: 8},
+            {id: 3, message: 'Stay away from my gold!', likesCount: 0},
+            {id: 4, message: 'LFM Tank to Deadmines last slot', likesCount: 8},
         ],
     },
     dialogsState: {
@@ -23,6 +23,16 @@ let state = {
             {id: 4, message: 'Red Beard is oaf :P'},
         ]
     },
-}
+};
+
+export const addPost = (postText) => {
+    const newPost = {
+        id: 5,
+        message: postText,
+        likesCount: 0,
+    };
+
+    state.profileState.posts.push(newPost);
+};
 
 export default state;
