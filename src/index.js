@@ -1,20 +1,26 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
 import './index.css';
-import App from './App';
+import state, {subscribe} from "./redux/state";
 import reportWebVitals from './reportWebVitals';
-import state from "./redux/state";
-import {addPost} from "./redux/state";
+import ReactDOM from 'react-dom';
+import App from './App';
+import {addNewPost, updateNewPostText} from "./redux/state"; // ЦИКЛИЧЕСКАЯ ЗАВИСИМОСТЬ!
 import {BrowserRouter} from "react-router-dom";
 
-ReactDOM.render(
-    <BrowserRouter>
-        <React.StrictMode>
-            <App state={state} addPost={addPost}/>
-        </React.StrictMode>
-    </BrowserRouter>,
-    document.getElementById('root')
-);
+const renderEntireTree = (state) => {
+    ReactDOM.render(
+        <BrowserRouter>
+            <React.StrictMode>
+                <App state={state} addNewPost={addNewPost} updateNewPostText={updateNewPostText}/>
+            </React.StrictMode>
+        </BrowserRouter>,
+        document.getElementById('root')
+    );
+}
+
+renderEntireTree(state);
+
+subscribe(renderEntireTree);
 
 // If you want to start measuring performance in your app, pass a function
 // to log results (for example: reportWebVitals(console.log))

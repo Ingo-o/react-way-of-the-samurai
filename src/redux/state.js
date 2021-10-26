@@ -1,3 +1,5 @@
+let renderEntireTree;
+
 let state = {
     profileState: {
         posts: [
@@ -6,6 +8,7 @@ let state = {
             {id: 3, message: 'Stay away from my gold!', likesCount: 0},
             {id: 4, message: 'LFM Tank to Deadmines last slot', likesCount: 8},
         ],
+        newPostText: '',
     },
     dialogsState: {
         dialogs: [
@@ -25,14 +28,28 @@ let state = {
     },
 };
 
-export const addPost = (postText) => {
+window.state = state;
+
+export const addNewPost = () => {
+    const {posts, newPostText} = state.profileState;
     const newPost = {
         id: 5,
-        message: postText,
+        message: newPostText,
         likesCount: 0,
     };
 
-    state.profileState.posts.push(newPost);
+    posts.push(newPost);
+    state.profileState.newPostText = '';
+    renderEntireTree(state);
+};
+
+export const updateNewPostText = (newText) => {
+    state.profileState.newPostText = newText;
+    renderEntireTree(state);
+};
+
+export const subscribe = (observer) => {
+    renderEntireTree = observer; // паттерн observer
 };
 
 export default state;

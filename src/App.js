@@ -10,13 +10,14 @@ import Settings from "./components/Settings/Settings";
 
 const App = (props) => {
     const {profileState, dialogsState} = props.state;
-    const {addPost} = props;
+    const {addNewPost, updateNewPostText} = props;
     return (
         <div className='app-wrapper'>
             <Header/>
             <Navbar/>
             <div className='app-wrapper-content'>
-                <Route path='/profile' render={() => <Profile profileState={profileState} addPost={addPost}/>}/>
+                <Route path='/profile' render={() => <Profile profileState={profileState} addNewPost={addNewPost}
+                                                              updateNewPostText={updateNewPostText}/>}/>
                 <Route path='/dialogs' render={() => <Dialogs dialogsState={dialogsState}/>}/>
                 <Route path='/news' render={() => <News/>}/>
                 <Route path='/music' render={() => <Music/>}/>
