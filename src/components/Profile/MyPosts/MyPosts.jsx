@@ -1,21 +1,22 @@
 import css from "./MyPosts.module.css";
 import Post from "./Post/Post";
 import React from "react";
+import {addPostActionCreator, updateNewPostTextActionCreator} from "../../../redux/state";
 
 const MyPosts = (props) => {
     const {posts, newPostText} = props.profileState;
-    const {addNewPost, updateNewPostText} = props;
-    const postItems = posts.map(p => <Post message={p.message} likesCount={p.likesCount}/>);
+    const {dispatch} = props;
 
+    const postItems = posts.map(p => <Post message={p.message} likesCount={p.likesCount}/>);
     const newPostArea = React.createRef();
 
-    const addPost = () => { // ЗАЧЕМ ОНА НУЖНА?
-        addNewPost();
+    const addPost = () => {
+        dispatch(addPostActionCreator());
     };
 
     const textAreaChange = () => {
         const text = newPostArea.current.value;
-        updateNewPostText(text);
+        dispatch(updateNewPostTextActionCreator(text));
     };
 
     return (
