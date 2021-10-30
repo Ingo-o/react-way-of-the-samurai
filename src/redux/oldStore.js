@@ -1,7 +1,9 @@
 import profileReducer from "./profileReducer";
 import dialogsReducer from "./dialogsReducer";
 
-let store = {
+// Self made Redux
+
+let oldStore = {
     _state: {
         profileState: {
             posts: [
@@ -33,21 +35,19 @@ let store = {
     getState() {
         return this._state;
     },
-
+    subscribe(listener) {
+        this._callSubscriber = listener;
+    },
     _callSubscriber() {
         console.log('State was changed');
     },
-    subscribe(func) {
-        this._callSubscriber = func;
-    },
-
     dispatch(action) {
         let {profileState, dialogsState} = this._state;
-        profileState = profileReducer(profileState, action);
-        dialogsState = dialogsReducer(dialogsState, action);
+        profileReducer(profileState, action);
+        dialogsReducer(dialogsState, action);
         this._callSubscriber(this._state);
     },
 };
 
-window.store = store;
-export default store;
+window.store = oldStore;
+export default oldStore;

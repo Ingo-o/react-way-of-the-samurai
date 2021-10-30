@@ -4,7 +4,17 @@ export const addNewPostActionCreator = () => ({type: ADD_NEW_POST});
 const UPDATE_NEW_POST_TEXT = 'UPDATE-NEW-POST-TEXT';
 export const updateNewPostTextActionCreator = (text) => ({type: UPDATE_NEW_POST_TEXT, newText: text});
 
-const profileReducer = (profileState, action) => {
+const initialProfileState = {
+    posts: [
+        {id: 1, message: 'Aboard!', likesCount: 12},
+        {id: 2, message: 'I am not fat i\'m big boned!', likesCount: 2},
+        {id: 3, message: 'Stay away from my gold!', likesCount: 0},
+        {id: 4, message: 'LFM Tank to Deadmines last slot', likesCount: 8},
+    ],
+    newPostText: '',
+};
+
+const profileReducer = (profileState = initialProfileState, action) => {
     switch (action.type) {
         case ADD_NEW_POST:
             const newPost = {
@@ -14,12 +24,13 @@ const profileReducer = (profileState, action) => {
             };
             profileState.posts.push(newPost);
             profileState.newPostText = '';
-            break;
+            return profileState;
         case UPDATE_NEW_POST_TEXT:
             profileState.newPostText = action.newText;
-            break;
+            return profileState;
+        default:
+            return profileState;
     }
-    return profileState;
 };
 
 export default profileReducer;

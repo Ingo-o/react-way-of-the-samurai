@@ -1,7 +1,6 @@
 import css from "./ProfileInfo.module.css";
 import pirate_island from "./pirate_island.jpg";
 
-
 const ProfileInfo = () => {
     return (
         <div>
