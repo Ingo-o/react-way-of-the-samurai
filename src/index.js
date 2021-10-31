@@ -5,22 +5,23 @@ import reportWebVitals from './reportWebVitals';
 import ReactDOM from 'react-dom';
 import App from './App';
 import {BrowserRouter} from "react-router-dom";
+import {Provider} from "./StoreContext";
 
-const {dispatch} = store;
-const renderEntireTree = (state) => {
+const renderEntireTree = () => {
     ReactDOM.render(
-        <BrowserRouter>
-            <React.StrictMode>
-                <App state={state} dispatch={dispatch.bind(store)}/>
-            </React.StrictMode>
-        </BrowserRouter>,
-        document.getElementById('root')
+        <React.StrictMode>
+            <BrowserRouter>
+                <Provider store={store}>
+                    <App/>
+                </Provider>
+            </BrowserRouter>
+        </React.StrictMode>, document.getElementById('root')
     );
-}
+};
 
-renderEntireTree(store.getState());
+renderEntireTree();
 
-store.subscribe(() => renderEntireTree(store.getState()));
+store.subscribe(() => renderEntireTree());
 
 // If you want to start measuring performance in your app, pass a function
 // to log results (for example: reportWebVitals(console.log))

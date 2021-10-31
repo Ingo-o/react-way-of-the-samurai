@@ -2,8 +2,9 @@ import profileReducer from "./profileReducer";
 import dialogsReducer from "./dialogsReducer";
 
 // Self made Redux
+// Not used now
 
-let oldStore = {
+let store = {
     _state: {
         profileState: {
             posts: [
@@ -49,5 +50,5 @@ let oldStore = {
     },
 };
 
-window.store = oldStore;
-export default oldStore;
+window.store = store;
+export default store;
