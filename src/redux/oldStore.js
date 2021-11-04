@@ -1,8 +1,7 @@
 import profileReducer from "./profileReducer";
 import dialogsReducer from "./dialogsReducer";
 
-// Self made Redux
-// Not used now
+// Собственноручно написанный Redux. Сейчас не используется.
 
 let store = {
     _state: {

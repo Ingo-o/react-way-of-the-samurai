@@ -1,3 +1,8 @@
+import _ from "lodash";
+
+// Reducer принимает на вход state и action и возвращает измененный (на основании action) state.
+// Action это объект содержащий информацию о том что мы хотим изменить.
+
 const SEND_MESSAGE = 'SEND-MESSAGE';
 export const sendMessageActionCreator = () => ({type: SEND_MESSAGE});
 
@@ -24,17 +29,24 @@ const initialDialogsState = {
 
 const dialogsReducer = (dialogsState = initialDialogsState, action) => {
     switch (action.type) {
-        case SEND_MESSAGE:
+        case SEND_MESSAGE: {
             const newMessage = {
                 id: 5,
                 message: dialogsState.newMessageText,
             };
-            dialogsState.messages.push(newMessage);
-            dialogsState.newMessageText = '';
-            return dialogsState;
-        case UPDATE_NEW_MESSAGE_TEXT:
-            dialogsState.newMessageText = action.newText;
-            return dialogsState;
+            // В виду специфики работы react-redux, из редьюсера нужно возвращать не измененный state,
+            // а его копию с новыми изменениями. Глубоко копируем только то что собираемся поменять.
+            const dialogsStateCopy = _.clone(dialogsState);
+            dialogsStateCopy.messages = _.clone(dialogsState.messages);
+            dialogsStateCopy.messages.push(newMessage);
+            dialogsStateCopy.newMessageText = '';
+            return dialogsStateCopy;
+        }
+        case UPDATE_NEW_MESSAGE_TEXT: {
+            const dialogsStateCopy = _.clone(dialogsState);
+            dialogsStateCopy.newMessageText = action.newText;
+            return dialogsStateCopy;
+        }
         default:
             return dialogsState;
     }

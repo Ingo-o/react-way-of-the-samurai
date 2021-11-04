@@ -9,6 +9,7 @@ import Settings from "./components/Settings/Settings";
 import DialogsContainer from "./components/Dialogs/DialogsContainer";
 
 const App = () => {
+    // Route следит за адресной строкой браузера и, в случае её совпадения с path, запускает render данных.
     return (
         <div className='app-wrapper'>
             <Header/>

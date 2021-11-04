@@ -5,23 +5,18 @@ import reportWebVitals from './reportWebVitals';
 import ReactDOM from 'react-dom';
 import App from './App';
 import {BrowserRouter} from "react-router-dom";
-import {Provider} from "./StoreContext";
+import {Provider} from "react-redux";
 
-const renderEntireTree = () => {
-    ReactDOM.render(
-        <React.StrictMode>
-            <BrowserRouter>
-                <Provider store={store}>
-                    <App/>
-                </Provider>
-            </BrowserRouter>
-        </React.StrictMode>, document.getElementById('root')
-    );
-};
-
-renderEntireTree();
-
-store.subscribe(() => renderEntireTree());
+ReactDOM.render(
+    // Для использования компоненты Route нужно обернуть код в котором она присутствует в BrowserRouter.
+    // Provider оборачивает основной компонент приложения и делает store доступным для дочерних компонент.
+    <React.StrictMode>
+        <BrowserRouter>
+            <Provider store={store}>
+                <App/>
+            </Provider>
+        </BrowserRouter>
+    </React.StrictMode>, document.getElementById('root'));
 
 // If you want to start measuring performance in your app, pass a function
 // to log results (for example: reportWebVitals(console.log))
