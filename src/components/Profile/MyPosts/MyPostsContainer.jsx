@@ -20,6 +20,5 @@ const mapDispatchToProps = (dispatch) => {
 // Connect создаёт контейнерную компоненту внутри которой отрисовывает презентационную компоненту.
 // В презентационную компоненту в виде пропсов передаются данные из объектов которые возвращаются двумя функциями.
 // Когда происходят изменения, connect сам перерисовывает дерево.
-const MyPostsContainer = connect(mapStateToProps, mapDispatchToProps)(MyPosts);
+export default connect(mapStateToProps, mapDispatchToProps)(MyPosts);
 
-export default MyPostsContainer;

@@ -1,5 +1,3 @@
-import _ from "lodash";
-
 // Reducer принимает на вход state и action и возвращает измененный (на основании action) state.
 // Action это объект содержащий информацию о том что мы хотим изменить.
 
@@ -20,25 +18,21 @@ const initialProfileState = {
 };
 
 const profileReducer = (profileState = initialProfileState, action) => {
+    // В виду специфики работы react-redux, из редьюсера нужно возвращать не измененный state,
+    // а его копию с новыми изменениями. Глубоко копируем только то что собираемся менять.
     switch (action.type) {
-        case ADD_NEW_POST: {
-            const newPost = {
-                id: 5,
-                message: profileState.newPostText,
-                likesCount: 0,
+        case ADD_NEW_POST:
+            const newPost = {id: 5, message: profileState.newPostText, likesCount: 0};
+            return {
+                ...profileState,
+                posts: [...profileState.posts, newPost],
+                newPostText: '',
             };
-            // В виду специфики работы react-redux, из редьюсера нужно возвращать не измененный state,
-            // а его копию с новыми изменениями. Глубоко копируем только то что собираемся поменять.
-            const profileStateCopy = _.cloneDeep(profileState);
-            profileStateCopy.posts.push(newPost);
-            profileStateCopy.newPostText = '';
-            return profileStateCopy;
-        }
-        case UPDATE_NEW_POST_TEXT: {
-            const profileStateCopy = _.clone(profileState);
-            profileStateCopy.newPostText = action.newText;
-            return profileStateCopy;
-        }
+        case UPDATE_NEW_POST_TEXT:
+            return {
+                ...profileState,
+                newPostText: action.newText,
+            };
         default:
             return profileState;
     }

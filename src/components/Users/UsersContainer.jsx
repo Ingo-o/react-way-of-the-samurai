@@ -1,23 +1,24 @@
-import {sendMessageActionCreator, updateNewMessageTextActionCreator} from "../../redux/dialogsReducer";
-import Dialogs from "./Dialogs";
 import {connect} from "react-redux";
+import Users from "./Users";
+import {followActionCreator, setUsersActionCreator, unfollowActionCreator} from "../../redux/usersReducer";
 
 // Возвращает объект с данными из state которые будут переданы в презентационную компоненту в качестве пропсов.
 const mapStateToProps = (state) => {
     return {
-        dialogsState: state.dialogsState
+        users: state.usersState.users
     }
 };
 
 // Возвращает объект с коллбеками которые будут переданы в презентационную компоненту в качестве пропсов.
 const mapDispatchToProps = (dispatch) => {
     return {
-        sendMessage: () => dispatch(sendMessageActionCreator()),
-        updateNewMessageText: (text) => dispatch(updateNewMessageTextActionCreator(text)),
+        follow: (userId) => dispatch(followActionCreator(userId)),
+        unfollow: (userId) => dispatch(unfollowActionCreator(userId)),
+        setUsers: (users) => dispatch(setUsersActionCreator(users)),
     }
 };
 
 // Connect создаёт контейнерную компоненту внутри которой отрисовывает презентационную компоненту.
 // В презентационную компоненту в виде пропсов передаются данные из объектов которые возвращаются двумя функциями.
 // Когда происходят изменения, connect сам перерисовывает дерево.
-export default connect(mapStateToProps, mapDispatchToProps)(Dialogs);
+export default connect(mapStateToProps, mapDispatchToProps)(Users);

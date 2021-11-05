@@ -1,5 +1,3 @@
-import _ from "lodash";
-
 // Reducer принимает на вход state и action и возвращает измененный (на основании action) state.
 // Action это объект содержащий информацию о том что мы хотим изменить.
 
@@ -28,25 +26,21 @@ const initialDialogsState = {
 };
 
 const dialogsReducer = (dialogsState = initialDialogsState, action) => {
+    // В виду специфики работы react-redux, из редьюсера нужно возвращать не измененный state,
+    // а его копию с новыми изменениями. Глубоко копируем только то что собираемся менять.
     switch (action.type) {
-        case SEND_MESSAGE: {
-            const newMessage = {
-                id: 5,
-                message: dialogsState.newMessageText,
+        case SEND_MESSAGE:
+            const newMessage = {id: 5, message: dialogsState.newMessageText};
+            return {
+                ...dialogsState,
+                messages: [...dialogsState.messages, newMessage],
+                newMessageText: '',
             };
-            // В виду специфики работы react-redux, из редьюсера нужно возвращать не измененный state,
-            // а его копию с новыми изменениями. Глубоко копируем только то что собираемся поменять.
-            const dialogsStateCopy = _.clone(dialogsState);
-            dialogsStateCopy.messages = _.clone(dialogsState.messages);
-            dialogsStateCopy.messages.push(newMessage);
-            dialogsStateCopy.newMessageText = '';
-            return dialogsStateCopy;
-        }
-        case UPDATE_NEW_MESSAGE_TEXT: {
-            const dialogsStateCopy = _.clone(dialogsState);
-            dialogsStateCopy.newMessageText = action.newText;
-            return dialogsStateCopy;
-        }
+        case UPDATE_NEW_MESSAGE_TEXT:
+            return {
+                ...dialogsState,
+                newMessageText: action.newText,
+            };
         default:
             return dialogsState;
     }

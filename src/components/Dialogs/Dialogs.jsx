@@ -7,8 +7,8 @@ const Dialogs = (props) => {
     const {dialogs, messages, newMessageText} = props.dialogsState;
     const {sendMessage, updateNewMessageText} = props;
 
-    const dialogItems = dialogs.map(d => <DialogItem name={d.name} id={d.id}/>);
-    const messageItems = messages.map(m => <MessageItem message={m.message} id={m.id}/>);
+    const dialogItems = dialogs.map(d => <DialogItem name={d.name} key={d.id} id={d.id}/>);
+    const messageItems = messages.map(m => <MessageItem message={m.message} key={m.id} id={m.id}/>);
 
     const sendMessageButtonClick = () => sendMessage();
 

@@ -1,6 +1,7 @@
 import {combineReducers} from "redux";
 import profileReducer from "./profileReducer";
 import dialogsReducer from "./dialogsReducer";
+import usersReducer from "./usersReducer";
 
 const {createStore} = require("redux");
 
@@ -8,6 +9,7 @@ const {createStore} = require("redux");
 let reducers = combineReducers({
     profileState: profileReducer,
     dialogsState: dialogsReducer,
+    usersState: usersReducer,
 });
 
 // При помощи вышесозданной функции создаём store.

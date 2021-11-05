@@ -6,7 +6,7 @@ const MyPosts = (props) => {
     const {posts, newPostText} = props.profileState;
     const {updateNewPostText, addNewPost} = props;
 
-    const postItems = posts.map(p => <Post message={p.message} likesCount={p.likesCount}/>);
+    const postItems = posts.map(p => <Post message={p.message} likesCount={p.likesCount} key={p.id} id={p.id}/>);
 
     const addNewPostButtonClick = () => addNewPost();
 
