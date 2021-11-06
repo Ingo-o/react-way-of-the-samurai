@@ -10,7 +10,7 @@ const Dialogs = (props) => {
     const dialogItems = dialogs.map(d => <DialogItem name={d.name} key={d.id} id={d.id}/>);
     const messageItems = messages.map(m => <MessageItem message={m.message} key={m.id} id={m.id}/>);
 
-    const sendMessageButtonClick = () => sendMessage();
+    const sendMessageButtonClick = () => sendMessage(); // ЗАЧЕМ НУЖНА ЭТА ФУНКЦИЯ?
 
     const textAreaChange = (e) => {
         const text = e.target.value;

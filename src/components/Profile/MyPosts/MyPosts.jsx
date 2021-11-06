@@ -8,7 +8,7 @@ const MyPosts = (props) => {
 
     const postItems = posts.map(p => <Post message={p.message} likesCount={p.likesCount} key={p.id} id={p.id}/>);
 
-    const addNewPostButtonClick = () => addNewPost();
+    const addNewPostButtonClick = () => addNewPost(); // ЗАЧЕМ НУЖНА ЭТА ФУНКЦИЯ?
 
     const textAreaChange = (e) => {
         const text = e.target.value;
