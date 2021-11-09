@@ -1,5 +1,5 @@
 import css from "./Post.module.css";
-import ava_cartman from "../../../../avatars/ava_cartman.jpg";
+import ava_cartman from "./ava_cartman.jpg";
 
 const Post = (props) => {
   const { message, likesCount, id } = props;
