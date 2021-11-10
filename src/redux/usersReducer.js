@@ -10,7 +10,18 @@ export const unfollowActionCreator = (userId) => ({type: UNFOLLOW, userId});
 const SET_USERS = 'SET_USERS';
 export const setUsersActionCreator = (users) => ({type: SET_USERS, users});
 
-const initialUsersState = {users: []};
+const SET_CURRENT_PAGE = 'SET_CURRENT_PAGE';
+export const setCurrentPageActionCreator = (currentPage) => ({type: SET_CURRENT_PAGE, currentPage});
+
+const SET_TOTAL_USERS_COUNT = 'SET_TOTAL_USERS_COUNT';
+export const setTotalUsersCountActionCreator = (totalUsersCount) => ({type: SET_TOTAL_USERS_COUNT, totalUsersCount});
+
+const initialUsersState = {
+    users: [],
+    pageSize: 5,
+    totalUsersCount: 0,
+    currentPage: 1,
+};
 
 const usersReducer = (usersState = initialUsersState, action) => {
     // В виду специфики работы react-redux, из редьюсера нужно возвращать не измененный state,
@@ -37,7 +48,11 @@ const usersReducer = (usersState = initialUsersState, action) => {
                 }),
             }
         case SET_USERS:
-            return {...usersState, users: [...usersState.users, ...action.users]};
+            return {...usersState, users: action.users};
+        case SET_CURRENT_PAGE:
+            return {...usersState, currentPage: action.currentPage};
+        case SET_TOTAL_USERS_COUNT:
+            return {...usersState, totalUsersCount: action.totalUsersCount};
         default:
             return usersState;
     }
