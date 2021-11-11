@@ -1,11 +1,12 @@
 // Reducer принимает на вход state и action и возвращает измененный (на основании action) state.
 // Action это объект содержащий информацию о том что мы хотим изменить.
 
+// ACTION CREATORS:
 const ADD_NEW_POST = 'ADD-NEW-POST';
-export const addNewPostActionCreator = () => ({type: ADD_NEW_POST});
+export const addNewPost = () => ({type: ADD_NEW_POST});
 
 const UPDATE_NEW_POST_TEXT = 'UPDATE-NEW-POST-TEXT';
-export const updateNewPostTextActionCreator = (text) => ({type: UPDATE_NEW_POST_TEXT, newText: text});
+export const updateNewPostText = (text) => ({type: UPDATE_NEW_POST_TEXT, newText: text});
 
 const initialProfileState = {
     posts: [

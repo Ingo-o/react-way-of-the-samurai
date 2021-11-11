@@ -1,26 +1,31 @@
 // Reducer принимает на вход state и action и возвращает измененный (на основании action) state.
 // Action это объект содержащий информацию о том что мы хотим изменить.
 
+// ACTION CREATORS:
 const FOLLOW = 'FOLLOW';
-export const followActionCreator = (userId) => ({type: FOLLOW, userId});
+export const follow = (userId) => ({type: FOLLOW, userId});
 
 const UNFOLLOW = 'UNFOLLOW';
-export const unfollowActionCreator = (userId) => ({type: UNFOLLOW, userId});
+export const unfollow = (userId) => ({type: UNFOLLOW, userId});
 
 const SET_USERS = 'SET_USERS';
-export const setUsersActionCreator = (users) => ({type: SET_USERS, users});
+export const setUsers = (users) => ({type: SET_USERS, users});
 
 const SET_CURRENT_PAGE = 'SET_CURRENT_PAGE';
-export const setCurrentPageActionCreator = (currentPage) => ({type: SET_CURRENT_PAGE, currentPage});
+export const setCurrentPage = (currentPage) => ({type: SET_CURRENT_PAGE, currentPage});
 
 const SET_TOTAL_USERS_COUNT = 'SET_TOTAL_USERS_COUNT';
-export const setTotalUsersCountActionCreator = (totalUsersCount) => ({type: SET_TOTAL_USERS_COUNT, totalUsersCount});
+export const setTotalUsersCount = (totalUsersCount) => ({type: SET_TOTAL_USERS_COUNT, totalUsersCount});
+
+const TOGGLE_IS_FETCHING = 'TOGGLE_IS_FETCHING';
+export const toggleIsFetching = (isFetching) => ({type: TOGGLE_IS_FETCHING, isFetching});
 
 const initialUsersState = {
     users: [],
     pageSize: 5,
     totalUsersCount: 0,
     currentPage: 1,
+    isFetching: false,
 };
 
 const usersReducer = (usersState = initialUsersState, action) => {
@@ -53,6 +58,8 @@ const usersReducer = (usersState = initialUsersState, action) => {
             return {...usersState, currentPage: action.currentPage};
         case SET_TOTAL_USERS_COUNT:
             return {...usersState, totalUsersCount: action.totalUsersCount};
+        case TOGGLE_IS_FETCHING:
+            return {...usersState, isFetching: action.isFetching};
         default:
             return usersState;
     }

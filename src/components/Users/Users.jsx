@@ -1,6 +1,7 @@
 import css from "./Users.module.css";
 import common_avatar from "../../assets/images/common_avatar.jpg";
 import React from "react";
+import {NavLink} from "react-router-dom";
 
 const Users = (props) => {
     const {users, follow, unfollow, pageSize, totalUsersCount, currentPage, onPageChange} = props;
@@ -23,8 +24,10 @@ const Users = (props) => {
             {users.map(u => <div key={u.id}>
                 <span>
                     <div>
-                        <img src={u.photos.small !== null ? u.photos.small : common_avatar}
-                             alt="Avatar" className={css.userAvatar}/>
+                        <NavLink to={'/profile/' + u.id}>
+                            <img src={u.photos.small !== null ? u.photos.small : common_avatar}
+                                 alt="Avatar" className={css.userAvatar}/>
+                        </NavLink>
                     </div>
                     <div>
                         {u.followed

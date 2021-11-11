@@ -1,11 +1,12 @@
 // Reducer принимает на вход state и action и возвращает измененный (на основании action) state.
 // Action это объект содержащий информацию о том что мы хотим изменить.
 
+// ACTION CREATORS:
 const SEND_MESSAGE = 'SEND-MESSAGE';
-export const sendMessageActionCreator = () => ({type: SEND_MESSAGE});
+export const sendMessage = () => ({type: SEND_MESSAGE});
 
 const UPDATE_NEW_MESSAGE_TEXT = 'UPDATE-NEW-MESSAGE-TEXT';
-export const updateNewMessageTextActionCreator = (text) => ({type: UPDATE_NEW_MESSAGE_TEXT, newText: text});
+export const updateNewMessageText = (text) => ({type: UPDATE_NEW_MESSAGE_TEXT, newText: text});
 
 const initialDialogsState = {
     dialogs: [
