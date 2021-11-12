@@ -8,6 +8,9 @@ export const addNewPost = () => ({type: ADD_NEW_POST});
 const UPDATE_NEW_POST_TEXT = 'UPDATE-NEW-POST-TEXT';
 export const updateNewPostText = (text) => ({type: UPDATE_NEW_POST_TEXT, newText: text});
 
+const SET_USER_PROFILE = 'SET_USER_PROFILE';
+export const setUserProfile = (profile) => ({type: SET_USER_PROFILE, profile});
+
 const initialProfileState = {
     posts: [
         {id: 1, message: 'Aboard!', likesCount: 12},
@@ -16,6 +19,7 @@ const initialProfileState = {
         {id: 4, message: 'LFM Tank to Deadmines last slot', likesCount: 8},
     ],
     newPostText: '',
+    profile: null,
 };
 
 const profileReducer = (profileState = initialProfileState, action) => {
@@ -33,6 +37,11 @@ const profileReducer = (profileState = initialProfileState, action) => {
             return {
                 ...profileState,
                 newPostText: action.newText,
+            };
+        case SET_USER_PROFILE:
+            return {
+                ...profileState,
+                profile: action.profile,
             };
         default:
             return profileState;
