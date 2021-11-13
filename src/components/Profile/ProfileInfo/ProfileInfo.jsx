@@ -1,10 +1,12 @@
 import css from "./ProfileInfo.module.css";
 import pirate_island from "./pirate_island.jpg";
 import Preloader from "../../common/Preloader/Preloader";
+import common_avatar from "../../../assets/images/common_avatar.jpg";
 
 const ProfileInfo = (props) => {
     const {profile} = props;
 
+    // Пока информация о профайле не пришла с сервера - отображаем preloader.
     if (!profile) {
         return <Preloader/>;
     }
@@ -19,8 +21,10 @@ const ProfileInfo = (props) => {
                 />
             </div>
             <div className={css.descriptionBlock}>
-                <img src={profile.photos.large}/>
-                ava + description
+                <img src={profile.photos.large !== null ? profile.photos.large : common_avatar}
+                     className={css.userAvatar}/>
+                <div>{profile.fullName}</div>
+                <div>{profile.aboutMe}</div>
             </div>
         </div>
     )

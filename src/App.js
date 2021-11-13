@@ -11,12 +11,14 @@ import ProfileContainer from "./components/Profile/ProfileContainer";
 
 const App = () => {
     // Route следит за адресной строкой браузера и, в случае её совпадения с path, запускает render данных.
+    // "?" означает что параметр опциональный и <ProfileContainer/> будет рендерится и без него.
+    // :userId? - значение этого параметра придет в пропсы через withRouter.
     return (
         <div className='app-wrapper'>
             <Header/>
             <Navbar/>
             <div className='app-wrapper-content'>
-                <Route path='/profile' render={() => <ProfileContainer/>}/>
+                <Route path='/profile/:userId?' render={() => <ProfileContainer/>}/>
                 <Route path='/dialogs' render={() => <DialogsContainer/>}/>
                 <Route path='/users' render={() => <UsersContainer/>}/>
                 <Route path='/news' render={() => <News/>}/>

@@ -5,3 +5,8 @@
 .descriptionBlock {
     padding: 10px;
 }
+
+.userAvatar {
+    width: 250px;
+    height: 250px;
+}
