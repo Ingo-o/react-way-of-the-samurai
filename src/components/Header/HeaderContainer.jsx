@@ -5,15 +5,15 @@ import {connect} from "react-redux";
 import {setAuthUserData} from "../../redux/authReducer";
 
 class HeaderContainer extends React.Component {
-    // Узнаем идентефицирован пользователь или нет
+    // Узнаем идентефицирован пользователь или нет.
     componentDidMount() {
         const {setAuthUserData} = this.props;
         axios.get(`https://social-network.samuraijs.com/api/1.0/auth/me`, {
-            // Вместе с запросом передается куки
+            // Вместе с запросом передается куки.
             withCredentials: true
         })
             .then(response => {
-                // Если пользователь идентефицирован - записываем информацию о нем в authState
+                // Если пользователь идентефицирован - записываем информацию о нем в authState.
                 if (response.data.resultCode === 0) {
                     const {id, email, login} = response.data.data;
                     setAuthUserData(id, email, login);

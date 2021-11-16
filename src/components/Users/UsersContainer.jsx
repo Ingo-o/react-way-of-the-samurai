@@ -14,7 +14,10 @@ class UsersContainer extends React.Component {
     componentDidMount() {
         const {pageSize, currentPage, setUsers, setTotalUsersCount, toggleIsFetching} = this.props;
         toggleIsFetching(true);
-        axios.get(`https://social-network.samuraijs.com/api/1.0/users?page=${currentPage}&count=${pageSize}`)
+        axios.get(`https://social-network.samuraijs.com/api/1.0/users?page=${currentPage}&count=${pageSize}`, {
+            // Вместе с запросом передается куки.
+            withCredentials: true
+        })
             .then(response => {
                 toggleIsFetching(false);
                 setUsers(response.data.items);
@@ -29,7 +32,10 @@ class UsersContainer extends React.Component {
         toggleIsFetching(true);
         setCurrentPage(pageNumber);
         // На момени вызова этого AJAX пропсы еще не вернулись, поэтому используем pageNumber а не currentPage.
-        axios.get(`https://social-network.samuraijs.com/api/1.0/users?page=${pageNumber}&count=${pageSize}`)
+        axios.get(`https://social-network.samuraijs.com/api/1.0/users?page=${pageNumber}&count=${pageSize}`, {
+            // Вместе с запросом передается куки.
+            withCredentials: true
+        })
             .then(response => {
                 toggleIsFetching(false);
                 setUsers(response.data.items);

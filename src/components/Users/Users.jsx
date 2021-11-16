@@ -2,6 +2,7 @@ import css from "./Users.module.css";
 import common_avatar from "../../assets/images/common_avatar.jpg";
 import React from "react";
 import {NavLink} from "react-router-dom";
+import axios from "axios";
 
 const Users = (props) => {
     const {users, follow, unfollow, pageSize, totalUsersCount, currentPage, onPageChange} = props;
@@ -17,7 +18,7 @@ const Users = (props) => {
             <div>
                 {   // Текущей странице задается класс selectedPage.
                     // В анонимную функцию приходит e, но мы его не используем.
-                    pages.map(p => <span className={currentPage === p && css.selectedPage}
+                    pages.map(p => <span className={currentPage === p ? css.selectedPage : css.unselectedPage}
                                          onClick={(e) => onPageChange(p)}>{p}</span>)
                 }
             </div>
@@ -31,8 +32,38 @@ const Users = (props) => {
                     </div>
                     <div>
                         {u.followed
-                            ? <button onClick={() => unfollow(u.id)}>Unfollow</button>
-                            : <button onClick={() => follow(u.id)}>Follow</button>}
+                            ? <button onClick={() => {
+                                axios.delete(`https://social-network.samuraijs.com/api/1.0/follow/${u.id}`,
+                                    {
+                                        // Вместе с запросом передается куки.
+                                        withCredentials: true,
+                                        // Все запросы кроме get, как правило требуют ключ доступа.
+                                        headers: {
+                                            "API-KEY": "f841d812-c73f-4d3d-a2fd-8879f3cbde4b"
+                                        }
+                                    })
+                                    .then(response => {
+                                        if (response.data.resultCode === 0) {
+                                            unfollow(u.id);
+                                        }
+                                    });
+                            }}>Unfollow</button>
+                            : <button onClick={() => {
+                                axios.post(`https://social-network.samuraijs.com/api/1.0/follow/${u.id}`,
+                                    {}, {
+                                        // Вместе с запросом передается куки
+                                        withCredentials: true,
+                                        // Все запросы кроме get, как правило требуют ключ доступа.
+                                        headers: {
+                                            "API-KEY": "f841d812-c73f-4d3d-a2fd-8879f3cbde4b"
+                                        }
+                                    })
+                                    .then(response => {
+                                        if (response.data.resultCode === 0) {
+                                            follow(u.id);
+                                        }
+                                    });
+                            }}>Follow</button>}
                     </div>
                 </span>
                 <span>
