@@ -1,11 +1,11 @@
 import {connect} from "react-redux";
 import React from "react";
-import axios from "axios";
 import Users from "./Users";
 import Preloader from "../common/Preloader/Preloader";
 import {
-    follow, setCurrentPage, setTotalUsersCount, setUsers, toggleIsFetching, unfollow
+    follow, setCurrentPage, setTotalUsersCount, setUsers, toggleFollowingProgress, toggleIsFetching, unfollow
 } from "../../redux/usersReducer";
+import {usersAPI} from "../../api/api";
 
 // Вторая контейнераная компонента которая делает AJAX-запросы и отрисовывает презентационную компоненту.
 class UsersContainer extends React.Component {
@@ -14,15 +14,11 @@ class UsersContainer extends React.Component {
     componentDidMount() {
         const {pageSize, currentPage, setUsers, setTotalUsersCount, toggleIsFetching} = this.props;
         toggleIsFetching(true);
-        axios.get(`https://social-network.samuraijs.com/api/1.0/users?page=${currentPage}&count=${pageSize}`, {
-            // Вместе с запросом передается куки.
-            withCredentials: true
-        })
-            .then(response => {
-                toggleIsFetching(false);
-                setUsers(response.data.items);
-                setTotalUsersCount(response.data.totalCount);
-            });
+        usersAPI.getUsers(currentPage, pageSize).then(data => {
+            toggleIsFetching(false);
+            setUsers(data.items);
+            setTotalUsersCount(data.totalCount);
+        });
     }
 
     // Этот метод срабатывает на клик.
@@ -32,22 +28,22 @@ class UsersContainer extends React.Component {
         toggleIsFetching(true);
         setCurrentPage(pageNumber);
         // На момени вызова этого AJAX пропсы еще не вернулись, поэтому используем pageNumber а не currentPage.
-        axios.get(`https://social-network.samuraijs.com/api/1.0/users?page=${pageNumber}&count=${pageSize}`, {
-            // Вместе с запросом передается куки.
-            withCredentials: true
-        })
-            .then(response => {
-                toggleIsFetching(false);
-                setUsers(response.data.items);
-            });
+        usersAPI.getUsers(pageNumber, pageSize).then(data => {
+            toggleIsFetching(false);
+            setUsers(data.items);
+        });
     }
 
     render() {
-        const {users, follow, unfollow, pageSize, totalUsersCount, currentPage, isFetching} = this.props;
+        const {
+            users, follow, unfollow, pageSize, totalUsersCount, currentPage,
+            isFetching, toggleFollowingProgress, followingInProgress,
+        } = this.props;
         return <>
             {isFetching ? <Preloader/> : null}
             <Users users={users} follow={follow} unfollow={unfollow} pageSize={pageSize}
                    totalUsersCount={totalUsersCount} currentPage={currentPage}
+                   toggleFollowingProgress={toggleFollowingProgress} followingInProgress={followingInProgress}
                    onPageChange={this.onPageChange}/>
         </>
     }
@@ -55,13 +51,14 @@ class UsersContainer extends React.Component {
 
 // Возвращает объект с данными из state которые будут переданы в презентационную компоненту в качестве пропсов.
 const mapStateToProps = (state) => {
-    const {users, pageSize, totalUsersCount, currentPage, isFetching} = state.usersState;
+    const {users, pageSize, totalUsersCount, currentPage, isFetching, followingInProgress} = state.usersState;
     return {
         users: users,
         pageSize: pageSize,
         totalUsersCount: totalUsersCount,
         currentPage: currentPage,
         isFetching: isFetching,
+        followingInProgress: followingInProgress,
     }
 };
 
@@ -69,7 +66,7 @@ const mapStateToProps = (state) => {
 // В неё в виде пропсов передаются данные из объектов которые возвращаются двумя функциями.
 // Когда происходят изменения, connect сам перерисовывает дерево.
 export default connect(mapStateToProps, {
-    follow, unfollow, setUsers, setCurrentPage, setTotalUsersCount, toggleIsFetching,
+    follow, unfollow, setUsers, setCurrentPage, setTotalUsersCount, toggleIsFetching, toggleFollowingProgress
 })(UsersContainer);
 
 // Вместо функции mapDispatchToProps вторым параметром мы передаем объект.

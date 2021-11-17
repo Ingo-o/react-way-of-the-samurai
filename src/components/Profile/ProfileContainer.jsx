@@ -1,9 +1,9 @@
 import React from "react";
 import Profile from "./Profile";
-import axios from "axios";
 import {connect} from "react-redux";
 import {setUserProfile} from "../../redux/profileReducer";
 import {withRouter} from "react-router-dom";
+import {profileAPI} from "../../api/api";
 
 // Вторая контейнераная компонента которая делает AJAX-запрос и отрисовывает презентационную компоненту.
 class ProfileContainer extends React.Component {
@@ -15,9 +15,10 @@ class ProfileContainer extends React.Component {
         if (!userId) {
             userId = 2;
         }
-        axios.get(`https://social-network.samuraijs.com/api/1.0/profile/${userId}`)
-            .then(response => {
-                setUserProfile(response.data);
+        // Запрашиваем информацию о профиле пользователя.
+        profileAPI.getUserProfileInfo(userId)
+            .then(data => {
+                setUserProfile(data);
             });
     }
 

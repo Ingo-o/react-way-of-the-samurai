@@ -20,12 +20,18 @@ export const setTotalUsersCount = (totalUsersCount) => ({type: SET_TOTAL_USERS_C
 const TOGGLE_IS_FETCHING = 'TOGGLE_IS_FETCHING';
 export const toggleIsFetching = (isFetching) => ({type: TOGGLE_IS_FETCHING, isFetching});
 
+const TOGGLE_FOLLOWING_PROGRESS = 'TOGGLE_FOLLOWING_PROGRESS';
+export const toggleFollowingProgress = (followingInProgress, userId) => ({
+    type: TOGGLE_FOLLOWING_PROGRESS, followingInProgress, userId
+});
+
 const initialUsersState = {
     users: [],
     pageSize: 5,
     totalUsersCount: 0,
     currentPage: 1,
     isFetching: false,
+    followingInProgress: [],
 };
 
 const usersReducer = (usersState = initialUsersState, action) => {
@@ -60,6 +66,15 @@ const usersReducer = (usersState = initialUsersState, action) => {
             return {...usersState, totalUsersCount: action.totalUsersCount};
         case TOGGLE_IS_FETCHING:
             return {...usersState, isFetching: action.isFetching};
+        case TOGGLE_FOLLOWING_PROGRESS:
+            return {
+                ...usersState,
+                followingInProgress: action.followingInProgress
+                    // Процесс идет - добавляем id в массив.
+                    ? [...usersState.followingInProgress, action.userId]
+                    // Процесс завершился - удаляем id из массива.
+                    : usersState.followingInProgress.filter(id => id !== action.userId)
+            };
         default:
             return usersState;
     }
