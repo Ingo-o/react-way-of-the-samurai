@@ -1,25 +1,21 @@
 import React from "react";
 import Profile from "./Profile";
 import {connect} from "react-redux";
-import {setUserProfile} from "../../redux/profileReducer";
+import {getUserProfile} from "../../redux/profileReducer";
 import {withRouter} from "react-router-dom";
-import {profileAPI} from "../../api/api";
 
 // Вторая контейнераная компонента которая делает AJAX-запрос и отрисовывает презентационную компоненту.
 class ProfileContainer extends React.Component {
     // Этот метод вызывается сразу после вставки компоненты в DOM.
     // Он получает и устанавливает данные о пользовательском профайле.
     componentDidMount() {
-        const {setUserProfile} = this.props;
+        const {getUserProfile} = this.props;
         let {userId} = this.props.match.params; // Эта информация приходит в пропсы благодаря обертке withRouter.
         if (!userId) {
             userId = 2;
         }
         // Запрашиваем информацию о профиле пользователя.
-        profileAPI.getUserProfileInfo(userId)
-            .then(data => {
-                setUserProfile(data);
-            });
+        getUserProfile(userId);
     }
 
     render() {
@@ -39,7 +35,7 @@ const ProfileContainerWithUrlData = withRouter(ProfileContainer);
 // Connect создаёт контейнерную компоненту вокруг (в данном случае) другой контейнерной компоненты.
 // В неё в виде пропсов передаются данные из объектов которые возвращаются двумя функциями.
 // Когда происходят изменения, connect сам перерисовывает дерево.
-export default connect(mapStateToProps, {setUserProfile})(ProfileContainerWithUrlData);
+export default connect(mapStateToProps, {getUserProfile})(ProfileContainerWithUrlData);
 
 // Вместо функции mapDispatchToProps вторым параметром мы передаем объект.
 // Connect сам приведет его к виду follow: (userId) => dispatch(followActionCreator(userId)).

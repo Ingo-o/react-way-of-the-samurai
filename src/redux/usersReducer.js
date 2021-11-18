@@ -1,12 +1,14 @@
+import {usersAPI} from "../api/api";
+
 // Reducer принимает на вход state и action и возвращает измененный (на основании action) state.
 // Action это объект содержащий информацию о том что мы хотим изменить.
 
 // ACTION CREATORS:
-const FOLLOW = 'FOLLOW';
-export const follow = (userId) => ({type: FOLLOW, userId});
+const FOLLOW_SUCCESS = 'FOLLOW_SUCCESS';
+export const followSuccess = (userId) => ({type: FOLLOW_SUCCESS, userId});
 
-const UNFOLLOW = 'UNFOLLOW';
-export const unfollow = (userId) => ({type: UNFOLLOW, userId});
+const UNFOLLOW_SUCCESS = 'UNFOLLOW_SUCCESS';
+export const unfollowSuccess = (userId) => ({type: UNFOLLOW_SUCCESS, userId});
 
 const SET_USERS = 'SET_USERS';
 export const setUsers = (users) => ({type: SET_USERS, users});
@@ -25,6 +27,55 @@ export const toggleFollowingProgress = (followingInProgress, userId) => ({
     type: TOGGLE_FOLLOWING_PROGRESS, followingInProgress, userId
 });
 
+// THUNKS это функции которые сначала делают асинхронные операции, а потом диспатчат actions.
+// Необходимые параметры передаются при помощи замыкания.
+export const getUsers = (currentPage, pageSize) => {
+    return (dispatch) => {
+        dispatch(toggleIsFetching(true));
+        usersAPI.getUsers(currentPage, pageSize).then(data => {
+            dispatch(toggleIsFetching(false));
+            dispatch(setUsers(data.items));
+            dispatch(setTotalUsersCount(data.totalCount));
+        });
+    }
+};
+
+// ???????????????????????????????
+export const pageChange = (pageNumber, pageSize) => {
+    return (dispatch) => {
+        dispatch(toggleIsFetching(true));
+        dispatch(setCurrentPage(pageNumber));
+        usersAPI.getUsers(pageNumber, pageSize).then(data => {
+            dispatch(toggleIsFetching(false));
+            dispatch(setUsers(data.items));
+        });
+    }
+};
+
+export const follow = (userId) => {
+    return (dispatch) => {
+        dispatch(toggleFollowingProgress(true, userId));
+        usersAPI.follow(userId).then(data => {
+            if (data.resultCode === 0) {
+                dispatch(followSuccess(userId));
+            }
+            dispatch(toggleFollowingProgress(false, userId));
+        });
+    }
+};
+
+export const unfollow = (userId) => {
+    return (dispatch) => {
+        dispatch(toggleFollowingProgress(true, userId));
+        usersAPI.unfollow(userId).then(data => {
+            if (data.resultCode === 0) {
+                dispatch(unfollowSuccess(userId));
+            }
+            dispatch(toggleFollowingProgress(false, userId));
+        });
+    }
+};
+
 const initialUsersState = {
     users: [],
     pageSize: 5,
@@ -38,7 +89,7 @@ const usersReducer = (usersState = initialUsersState, action) => {
     // В виду специфики работы react-redux, из редьюсера нужно возвращать не измененный state,
     // а его копию с новыми изменениями. Глубоко копируем только то что собираемся менять.
     switch (action.type) {
-        case FOLLOW:
+        case FOLLOW_SUCCESS:
             return {
                 ...usersState,
                 users: usersState.users.map(u => {
@@ -48,7 +99,7 @@ const usersReducer = (usersState = initialUsersState, action) => {
                     return u;
                 }),
             }
-        case UNFOLLOW:
+        case UNFOLLOW_SUCCESS:
             return {
                 ...usersState,
                 users: usersState.users.map(u => {

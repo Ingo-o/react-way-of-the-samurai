@@ -1,3 +1,5 @@
+import {usersAPI} from "../api/api";
+
 // Reducer принимает на вход state и action и возвращает измененный (на основании action) state.
 // Action это объект содержащий информацию о том что мы хотим изменить.
 
@@ -10,6 +12,17 @@ export const updateNewPostText = (text) => ({type: UPDATE_NEW_POST_TEXT, newText
 
 const SET_USER_PROFILE = 'SET_USER_PROFILE';
 export const setUserProfile = (profile) => ({type: SET_USER_PROFILE, profile});
+
+// THUNKS это функции которые сначала делают асинхронные операции, а потом диспатчат actions.
+// Необходимые параметры передаются при помощи замыкания.
+export const getUserProfile = (userId) => {
+    return (dispatch) => {
+        usersAPI.getUserProfile(userId)
+            .then(data => {
+                dispatch(setUserProfile(data));
+            });
+    }
+};
 
 const initialProfileState = {
     posts: [
