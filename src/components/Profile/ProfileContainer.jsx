@@ -3,6 +3,8 @@ import Profile from "./Profile";
 import {connect} from "react-redux";
 import {getUserProfile} from "../../redux/profileReducer";
 import {withRouter} from "react-router-dom";
+import withAuthRedirect from "../../hoc/withAuthRedirect";
+import {compose} from "redux";
 
 // Вторая контейнераная компонента которая делает AJAX-запрос и отрисовывает презентационную компоненту.
 class ProfileContainer extends React.Component {
@@ -29,14 +31,23 @@ class ProfileContainer extends React.Component {
 // Возвращает объект с данными из state которые будут переданы в презентационную компоненту в качестве пропсов.
 const mapStateToProps = (state) => ({profile: state.profileState.profile});
 
-// Еще одна обертка над компонентой, передающая в неё данные из URL.
-const ProfileContainerWithUrlData = withRouter(ProfileContainer);
+// Объединение разных обработчиков функцией compose.
+export default compose(
+    connect(mapStateToProps, {getUserProfile}),
+    withRouter,
+    withAuthRedirect,
+)(ProfileContainer);
 
-// Connect создаёт контейнерную компоненту вокруг (в данном случае) другой контейнерной компоненты.
-// В неё в виде пропсов передаются данные из объектов которые возвращаются двумя функциями.
-// Когда происходят изменения, connect сам перерисовывает дерево.
-export default connect(mapStateToProps, {getUserProfile})(ProfileContainerWithUrlData);
+/*
+1. withAuthRedirect - HOC-обертка над компонентой.
+Если пользователь не авторизован, то вместо отрисовки компоненты, он будет перенаправлен на страницу login.
 
-// Вместо функции mapDispatchToProps вторым параметром мы передаем объект.
-// Connect сам приведет его к виду follow: (userId) => dispatch(followActionCreator(userId)).
-// Как и в случае с mapStateToProps, коллбеки будут переданы в презентационную компоненту в качестве пропсов.
+2. withRouter - HOC-обертка передающая в компоненту данные из URL.
+
+3. Connect создаёт контейнерную компоненту вокруг другой компоненты и в виде пропсов передают в неё данные из объектов
+которые возвращаются двумя функциями. Когда происходят изменения, connect сам перерисовывает дерево.
+
+Вместо функции mapDispatchToProps вторым параметром мы передаем объект. Connect сам приведет его к виду:
+follow: (userId) => dispatch(followActionCreator(userId)).
+Как и в случае с mapStateToProps, коллбеки будут переданы в презентационную компоненту в качестве пропсов.
+*/
