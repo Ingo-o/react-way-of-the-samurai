@@ -35,16 +35,12 @@ const mapStateToProps = (state) => ({profile: state.profileState.profile});
 export default compose(
     connect(mapStateToProps, {getUserProfile}),
     withRouter,
-    withAuthRedirect,
 )(ProfileContainer);
 
 /*
-1. withAuthRedirect - HOC-обертка над компонентой.
-Если пользователь не авторизован, то вместо отрисовки компоненты, он будет перенаправлен на страницу login.
+1. withRouter - HOC-обертка передающая в компоненту данные из URL.
 
-2. withRouter - HOC-обертка передающая в компоненту данные из URL.
-
-3. Connect создаёт контейнерную компоненту вокруг другой компоненты и в виде пропсов передают в неё данные из объектов
+2. Connect создаёт контейнерную компоненту вокруг другой компоненты и в виде пропсов передают в неё данные из объектов
 которые возвращаются двумя функциями. Когда происходят изменения, connect сам перерисовывает дерево.
 
 Вместо функции mapDispatchToProps вторым параметром мы передаем объект. Connect сам приведет его к виду:

@@ -12,7 +12,7 @@ import Login from "./components/Login/Login";
 
 const App = () => {
     // Route следит за адресной строкой браузера и, в случае её совпадения с path, запускает render данных.
-    // "?" означает что параметр опциональный и <ProfileContainer/> будет рендерится и без него.
+    // "?" означает что параметр опциональный и <ProfileContainer/> будет раздерется и без него.
     // :userId? - значение этого параметра придет в пропсы через withRouter.
     return (
         <div className='app-wrapper'>
