@@ -3,7 +3,8 @@ import React from "react";
 class ProfileStatus extends React.Component {
     // Локальный state
     state = {
-        editMode: false
+        editMode: false,
+        status: this.props.status,
     }
 
     // Контекст обычных функций зависит от места вызова, а стрелочных от места определения.
@@ -14,15 +15,33 @@ class ProfileStatus extends React.Component {
     }
 
     deactivateEditMode = () => {
+        const {updateUserStatus} = this.props;
         this.setState({editMode: false});
+        updateUserStatus(this.state.status);
+    }
+
+    onStatusChange = (e) => {
+        this.setState({
+            status: e.currentTarget.value,
+        })
+    }
+
+    // Вызывается при изменении state или props
+    componentDidUpdate(prevProps, prevState) {
+        if (prevProps.status !== this.props.status) {
+            this.setState({
+                status: this.props.status
+            })
+        }
     }
 
     render() {
         return (
             <div>
                 {this.state.editMode
-                    ? <div><input autoFocus={true} onBlur={this.deactivateEditMode} value={this.props.status}/></div>
-                    : <div onDoubleClick={this.activateEditMode}><span>{this.props.status}</span></div>
+                    ? <div><input onChange={this.onStatusChange} autoFocus={true} onBlur={this.deactivateEditMode}
+                                  value={this.state.status}/></div>
+                    : <div onDoubleClick={this.activateEditMode}><span>{this.props.status || 'No status'}</span></div>
                 }
             </div>
         )

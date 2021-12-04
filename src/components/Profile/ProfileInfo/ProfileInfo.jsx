@@ -5,7 +5,7 @@ import common_avatar from "../../../assets/images/common_avatar.jpg";
 import ProfileStatus from "./ProfileStatus";
 
 const ProfileInfo = (props) => {
-    const {profile} = props;
+    const {profile, status, updateUserStatus} = props;
 
     // Пока информация о профайле не пришла с сервера - отображаем preloader.
     if (!profile) {
@@ -20,7 +20,7 @@ const ProfileInfo = (props) => {
             <div className={css.descriptionBlock}>
                 <img src={profile.photos.large !== null ? profile.photos.large : common_avatar}
                      className={css.userAvatar} alt={'Avatar'}/>
-                <ProfileStatus status={'Test status'}/>
+                <ProfileStatus status={status} updateUserStatus={updateUserStatus}/>
                 <div>{profile.fullName}</div>
                 <div>{profile.aboutMe}</div>
             </div>
