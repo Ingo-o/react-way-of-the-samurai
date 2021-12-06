@@ -4,6 +4,7 @@ import dialogsReducer from "./dialogsReducer";
 import usersReducer from "./usersReducer";
 import authReducer from "./authReducer";
 import thunkMiddleware from "redux-thunk";
+import {reducer as formReducer} from 'redux-form';
 
 const {createStore} = require("redux");
 
@@ -13,6 +14,7 @@ let reducers = combineReducers({
     dialogsState: dialogsReducer,
     usersState: usersReducer,
     authState: authReducer,
+    form: formReducer, // Reducer библиотеки redux-form (state должен называться именно form).
 });
 
 // При помощи вышесозданной функции создаём store.

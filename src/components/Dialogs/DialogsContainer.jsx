@@ -1,4 +1,4 @@
-import {sendMessage, updateNewMessageText} from "../../redux/dialogsReducer";
+import {sendMessage} from "../../redux/dialogsReducer";
 import Dialogs from "./Dialogs";
 import {connect} from "react-redux";
 import withAuthRedirect from "../../hoc/withAuthRedirect";
@@ -9,7 +9,7 @@ const mapStateToProps = (state) => ({dialogsState: state.dialogsState});
 
 // Объединение разных обработчиков функцией compose.
 export default compose(
-    connect(mapStateToProps, {sendMessage, updateNewMessageText}),
+    connect(mapStateToProps, {sendMessage}),
     withAuthRedirect,
 )(Dialogs);
 

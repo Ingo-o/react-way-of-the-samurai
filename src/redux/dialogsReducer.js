@@ -3,10 +3,7 @@
 
 // ACTION CREATORS:
 const SEND_MESSAGE = 'SEND-MESSAGE';
-export const sendMessage = () => ({type: SEND_MESSAGE});
-
-const UPDATE_NEW_MESSAGE_TEXT = 'UPDATE-NEW-MESSAGE-TEXT';
-export const updateNewMessageText = (text) => ({type: UPDATE_NEW_MESSAGE_TEXT, newText: text});
+export const sendMessage = (newMessageText) => ({type: SEND_MESSAGE, newMessageText});
 
 const initialDialogsState = {
     dialogs: [
@@ -22,8 +19,7 @@ const initialDialogsState = {
         {id: 2, message: 'Yarrrrr!'},
         {id: 3, message: 'Fifteen men on the dead man\'s chest! Yo-ho-ho, and a bottle of rum!'},
         {id: 4, message: 'Red Beard is oaf :P'},
-    ],
-    newMessageText: '',
+    ]
 };
 
 const dialogsReducer = (dialogsState = initialDialogsState, action) => {
@@ -31,16 +27,10 @@ const dialogsReducer = (dialogsState = initialDialogsState, action) => {
     // а его копию с новыми изменениями. Глубоко копируем только то что собираемся менять.
     switch (action.type) {
         case SEND_MESSAGE:
-            const newMessage = {id: 5, message: dialogsState.newMessageText};
+            const newMessage = {id: 5, message: action.newMessageText};
             return {
                 ...dialogsState,
                 messages: [...dialogsState.messages, newMessage],
-                newMessageText: '',
-            };
-        case UPDATE_NEW_MESSAGE_TEXT:
-            return {
-                ...dialogsState,
-                newMessageText: action.newText,
             };
         default:
             return dialogsState;

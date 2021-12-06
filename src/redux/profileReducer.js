@@ -5,10 +5,7 @@ import {profileAPI} from "../api/api";
 
 // ACTION CREATORS:
 const ADD_NEW_POST = 'ADD-NEW-POST';
-export const addNewPost = () => ({type: ADD_NEW_POST});
-
-const UPDATE_NEW_POST_TEXT = 'UPDATE-NEW-POST-TEXT';
-export const updateNewPostText = (text) => ({type: UPDATE_NEW_POST_TEXT, newText: text});
+export const addNewPost = (newPostText) => ({type: ADD_NEW_POST, newPostText});
 
 const SET_USER_PROFILE = 'SET_USER_PROFILE';
 export const setUserProfile = (profile) => ({type: SET_USER_PROFILE, profile});
@@ -54,7 +51,6 @@ const initialProfileState = {
         {id: 3, message: 'Stay away from my gold!', likesCount: 0},
         {id: 4, message: 'LFM Tank to Deadmines last slot', likesCount: 8},
     ],
-    newPostText: '',
     profile: null,
     status: '',
 };
@@ -64,16 +60,10 @@ const profileReducer = (profileState = initialProfileState, action) => {
     // а его копию с новыми изменениями. Глубоко копируем только то что собираемся менять.
     switch (action.type) {
         case ADD_NEW_POST:
-            const newPost = {id: 5, message: profileState.newPostText, likesCount: 0};
+            const newPost = {id: 5, message: action.newPostText, likesCount: 0};
             return {
                 ...profileState,
                 posts: [...profileState.posts, newPost],
-                newPostText: '',
-            };
-        case UPDATE_NEW_POST_TEXT:
-            return {
-                ...profileState,
-                newPostText: action.newText,
             };
         case SET_USER_PROFILE:
             return {
