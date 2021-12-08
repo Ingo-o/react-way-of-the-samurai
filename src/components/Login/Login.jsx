@@ -1,5 +1,7 @@
 import css from "./Login.module.css";
 import {Field, reduxForm} from "redux-form";
+import {Input} from "../common/FormControls/FormControls";
+import {required} from "../../utils/validators/validators";
 
 // Field - контейнерная компонента рисующая другую компоненту. Внутри Field уже зашиты onChange, которые будут
 // брать данные и отправлять их в state. Атрибут name - то под каким именем данные уйдут на сервер.
@@ -11,13 +13,13 @@ const LoginForm = (props) => {
     return (
         <form onSubmit={props.handleSubmit}>
             <div>
-                <Field placeholder={"Login"} name={"login"} component={"input"}/>
+                <Field placeholder={"Login"} name={"login"} validate={[required]} component={Input}/>
             </div>
             <div>
-                <Field placeholder={"Password"} name={"password"} component={"input"}/>
+                <Field placeholder={"Password"} name={"password"} validate={[required]} component={Input}/>
             </div>
             <div>
-                <Field type={"checkbox"} name={"rememberMe"} component={"input"}/> Remember me
+                <Field type={"checkbox"} name={"rememberMe"} validate={[required]} component={Input}/> Remember me
             </div>
             <div>
                 <button>Login</button>
