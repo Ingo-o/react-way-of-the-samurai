@@ -10,10 +10,10 @@ class ProfileContainer extends React.Component {
     // Этот метод вызывается сразу после вставки компоненты в DOM.
     // Он получает и устанавливает данные о пользовательском профайле.
     componentDidMount() {
-        const {getUserProfile, getUserStatus} = this.props;
+        const {getUserProfile, getUserStatus, authorizedUserId, isAuth} = this.props;
         let {userId} = this.props.match.params; // Эта информация приходит в пропсы благодаря обертке withRouter.
         if (!userId) {
-            userId = 2;
+            userId = authorizedUserId;
         }
         // Запрашиваем информацию о профиле пользователя.
         getUserProfile(userId);
@@ -32,6 +32,8 @@ class ProfileContainer extends React.Component {
 const mapStateToProps = (state) => ({
     profile: state.profileState.profile,
     status: state.profileState.status,
+    authorizedUserId: state.authState.id,
+    isAuth: state.authState.isAuth,
 });
 
 // Объединение разных обработчиков функцией compose.

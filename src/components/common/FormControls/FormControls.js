@@ -1,26 +1,23 @@
 import React from "react";
 import css from "./FormControls.module.css"
 
-// rest-оператор
-const FormControl = ({input, meta, ...props}) => {
+const FormControl = ({input, meta, Formtype, ...props}) => { // rest-оператор
     const hasError = meta.touched && meta.error;
 
     return (
         <div className={css.formControl + " " + (hasError ? css.error : " ")}>
-            <div>{props.children}</div>
+            <div><Formtype {...input} {...props} /></div>
             {hasError && <span>{meta.error}</span>}
         </div>
     )
 }
 
 export const Input = (props) => {
-    const {input, meta, ...restProps} = props;
-    return <FormControl {...props}><input {...input} {...restProps} /></FormControl>
+    return <FormControl {...props} Formtype='input' />
 }
 
 export const Textarea = (props) => {
-    const {input, meta, ...restProps} = props;
-    return <FormControl {...props}><textarea {...input} {...restProps} /></FormControl>
+    return <FormControl {...props} Formtype='textarea' />
 }
 
 // && - the operator returns the value of the first falsy operand encountered when evaluating from left to right,
