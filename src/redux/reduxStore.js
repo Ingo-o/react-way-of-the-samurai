@@ -5,6 +5,7 @@ import usersReducer from "./usersReducer";
 import authReducer from "./authReducer";
 import thunkMiddleware from "redux-thunk";
 import {reducer as formReducer} from 'redux-form';
+import appReducer from "./appReducer";
 
 const {createStore} = require("redux");
 
@@ -14,10 +15,11 @@ let reducers = combineReducers({
     dialogsState: dialogsReducer,
     usersState: usersReducer,
     authState: authReducer,
+    appState: appReducer,
     form: formReducer, // Reducer библиотеки redux-form (state должен называться именно form).
 });
 
-// При помощи вышесозданной функции создаём store.
+// При помощи созданной выше функции создаём store.
 // applyMiddleware - создание промежуточного слоя для использования thunks.
 let store = createStore(reducers, applyMiddleware(thunkMiddleware));
 

@@ -53,7 +53,7 @@ const mapStateToProps = (state) => {
 // Объединение разных обработчиков функцией compose.
 export default compose(
     connect(mapStateToProps, {getUsers, pageChange, follow, unfollow}),
-    withAuthRedirect,
+    // withAuthRedirect,
 )(UsersContainer);
 
 /*

@@ -13,16 +13,14 @@ export const setAuthUserData = (id, email, login, isAuth) => ({
 
 // THUNKS это функции которые сначала делают асинхронные операции, а потом диспатчат actions.
 // Необходимые параметры передаются при помощи замыкания.
-export const getAuthUserData = () => {
-    return (dispatch) => {
-        authAPI.isIdentified().then(data => {
-            // Если пользователь идентефицирован - записываем информацию о нем в authState.
-            if (data.resultCode === 0) {
-                const {id, email, login} = data.data;
-                dispatch(setAuthUserData(id, email, login, true));
-            }
-        });
-    }
+export const getAuthUserData = () => (dispatch) => {
+    return authAPI.isIdentified().then(data => {
+        // Если пользователь идентефицирован - записываем информацию о нем в authState.
+        if (data.resultCode === 0) {
+            const {id, email, login} = data.data;
+            dispatch(setAuthUserData(id, email, login, true));
+        }
+    });
 };
 
 export const login = (email, password, rememberMe) => (dispatch) => {

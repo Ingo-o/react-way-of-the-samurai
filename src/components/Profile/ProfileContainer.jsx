@@ -14,6 +14,10 @@ class ProfileContainer extends React.Component {
         let {userId} = this.props.match.params; // Эта информация приходит в пропсы благодаря обертке withRouter.
         if (!userId) {
             userId = authorizedUserId;
+            if(!userId) {
+                // редирект можно делать через history.push.
+                this.props.history.push('/login');
+            }
         }
         // Запрашиваем информацию о профиле пользователя.
         getUserProfile(userId);
