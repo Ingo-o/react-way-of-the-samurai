@@ -2,22 +2,29 @@ import {connect} from "react-redux";
 import React from "react";
 import Users from "./Users";
 import Preloader from "../common/Preloader/Preloader";
-import {getUsers, pageChange, follow, unfollow} from "../../redux/usersReducer";
+import {requestUsers, pageChange, follow, unfollow} from "../../redux/usersReducer";
 import withAuthRedirect from "../../hoc/withAuthRedirect";
 import {compose} from "redux";
+import {
+    getCurrentPage,
+    getFollowingInProgress,
+    getIsFetching,
+    getPageSize,
+    getTotalUsersCount, getUsers
+} from "../../redux/usersSelectors";
 
 // Вторая контейнераная компонента которая делает AJAX-запросы и отрисовывает презентационную компоненту.
 class UsersContainer extends React.Component {
     // Этот метод вызывается сразу после вставки компоненты в DOM.
     // Он отрисовывает ПЕРВУЮ страницу пользователей и передает в totalUsersCount их общее количество.
     componentDidMount() {
-        const {pageSize, currentPage, getUsers} = this.props;
-        getUsers(currentPage, pageSize);
+        const {pageSize, currentPage, requestUsers} = this.props;
+        requestUsers(currentPage, pageSize);
     }
 
     // Этот метод срабатывает на клик.
     // Он изменяет currentPage и отрисовывает НУЖНУЮ НАМ страницу пользователей.
-    // На момени вызова этого AJAX пропсы еще не вернулись, поэтому используем pageNumber а не currentPage.
+    // На момент вызова этого AJAX пропсы еще не вернулись, поэтому используем pageNumber а не currentPage.
     onPageChange = (pageNumber) => {
         const {pageChange, pageSize} = this.props;
         pageChange(pageNumber, pageSize);
@@ -38,7 +45,7 @@ class UsersContainer extends React.Component {
 }
 
 // Возвращает объект с данными из state которые будут переданы в презентационную компоненту в качестве пропсов.
-const mapStateToProps = (state) => {
+/*const mapStateToProps = (state) => {
     const {users, pageSize, totalUsersCount, currentPage, isFetching, followingInProgress} = state.usersState;
     return {
         users: users,
@@ -48,11 +55,22 @@ const mapStateToProps = (state) => {
         isFetching: isFetching,
         followingInProgress: followingInProgress,
     }
+};*/
+
+const mapStateToProps = (state) => {
+    return {
+        users: getUsers(state),
+        pageSize: getPageSize(state),
+        totalUsersCount: getTotalUsersCount(state),
+        currentPage: getCurrentPage(state),
+        isFetching: getIsFetching(state),
+        followingInProgress: getFollowingInProgress(state),
+    }
 };
 
 // Объединение разных обработчиков функцией compose.
 export default compose(
-    connect(mapStateToProps, {getUsers, pageChange, follow, unfollow}),
+    connect(mapStateToProps, {requestUsers, pageChange, follow, unfollow}),
     // withAuthRedirect,
 )(UsersContainer);
 

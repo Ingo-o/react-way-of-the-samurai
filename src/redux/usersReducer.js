@@ -29,7 +29,7 @@ export const toggleFollowingProgress = (followingInProgress, userId) => ({
 
 // THUNKS это функции которые сначала делают асинхронные операции, а потом диспатчат actions.
 // Необходимые параметры передаются при помощи замыкания.
-export const getUsers = (currentPage, pageSize) => {
+export const requestUsers = (currentPage, pageSize) => {
     return (dispatch) => {
         dispatch(toggleIsFetching(true));
         usersAPI.getUsers(currentPage, pageSize).then(data => {
