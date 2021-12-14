@@ -32,22 +32,11 @@ export const toggleFollowingProgress = (followingInProgress, userId) => ({
 export const requestUsers = (currentPage, pageSize) => {
     return (dispatch) => {
         dispatch(toggleIsFetching(true));
+        dispatch(setCurrentPage(currentPage));
         usersAPI.getUsers(currentPage, pageSize).then(data => {
             dispatch(toggleIsFetching(false));
             dispatch(setUsers(data.items));
             dispatch(setTotalUsersCount(data.totalCount));
-        });
-    }
-};
-
-// ???????????????????????????????
-export const pageChange = (pageNumber, pageSize) => {
-    return (dispatch) => {
-        dispatch(toggleIsFetching(true));
-        dispatch(setCurrentPage(pageNumber));
-        usersAPI.getUsers(pageNumber, pageSize).then(data => {
-            dispatch(toggleIsFetching(false));
-            dispatch(setUsers(data.items));
         });
     }
 };

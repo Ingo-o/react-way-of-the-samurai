@@ -8,6 +8,7 @@ const Users = (props) => {
         follow, unfollow, users, pageSize, totalUsersCount, currentPage,
         onPageChange, followingInProgress,
     } = props;
+
     const pagesCount = Math.ceil(totalUsersCount / pageSize);
     const pages = [];
     for (let i = 1; i <= pagesCount; i += 1) {

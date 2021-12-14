@@ -26,8 +26,8 @@ class UsersContainer extends React.Component {
     // Он изменяет currentPage и отрисовывает НУЖНУЮ НАМ страницу пользователей.
     // На момент вызова этого AJAX пропсы еще не вернулись, поэтому используем pageNumber а не currentPage.
     onPageChange = (pageNumber) => {
-        const {pageChange, pageSize} = this.props;
-        pageChange(pageNumber, pageSize);
+        const {requestUsers, pageSize} = this.props;
+        requestUsers(pageNumber, pageSize);
     }
 
     render() {
@@ -70,7 +70,7 @@ const mapStateToProps = (state) => {
 
 // Объединение разных обработчиков функцией compose.
 export default compose(
-    connect(mapStateToProps, {requestUsers, pageChange, follow, unfollow}),
+    connect(mapStateToProps, {requestUsers, follow, unfollow}),
     // withAuthRedirect,
 )(UsersContainer);
 
