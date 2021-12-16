@@ -1,5 +1,7 @@
 import React from "react";
 
+// На данный момент используется другая компонента - ProfileStatusWithHooks.
+
 class ProfileStatus extends React.Component {
     // Локальный state
     state = {

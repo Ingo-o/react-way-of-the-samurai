@@ -3,6 +3,7 @@ import pirate_island from "./pirate_island.jpg";
 import Preloader from "../../common/Preloader/Preloader";
 import common_avatar from "../../../assets/images/common_avatar.jpg";
 import ProfileStatus from "./ProfileStatus";
+import ProfileStatusWithHooks from "./ProfileStatusWithHooks";
 
 const ProfileInfo = (props) => {
     const {profile, status, updateUserStatus} = props;
@@ -20,7 +21,7 @@ const ProfileInfo = (props) => {
             <div className={css.descriptionBlock}>
                 <img src={profile.photos.large !== null ? profile.photos.large : common_avatar}
                      className={css.userAvatar} alt={'Avatar'}/>
-                <ProfileStatus status={status} updateUserStatus={updateUserStatus}/>
+                <ProfileStatusWithHooks status={status} updateUserStatus={updateUserStatus}/>
                 <div>{profile.fullName}</div>
                 <div>{profile.aboutMe}</div>
             </div>
