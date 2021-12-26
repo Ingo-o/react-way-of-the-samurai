@@ -5,7 +5,7 @@ import {connect} from "react-redux";
 // Возвращает объект с данными из state которые будут переданы в презентационную компоненту в качестве пропсов.
 const mapStateToProps = (state) => {
     return {
-        profileState: state.profileState
+        posts: state.profileState.posts,
     }
 };
 
