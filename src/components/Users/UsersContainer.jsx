@@ -2,8 +2,7 @@ import {connect} from "react-redux";
 import React from "react";
 import Users from "./Users";
 import Preloader from "../common/Preloader/Preloader";
-import {requestUsers, pageChange, follow, unfollow} from "../../redux/usersReducer";
-import withAuthRedirect from "../../hoc/withAuthRedirect";
+import {requestUsers, follow, unfollow} from "../../redux/usersReducer";
 import {compose} from "redux";
 import {
     getCurrentPage,
@@ -71,14 +70,10 @@ const mapStateToProps = (state) => {
 // Объединение разных обработчиков функцией compose.
 export default compose(
     connect(mapStateToProps, {requestUsers, follow, unfollow}),
-    // withAuthRedirect,
 )(UsersContainer);
 
 /*
-1. withAuthRedirect - HOC-обертка над компонентой.
-Если пользователь не авторизован, то вместо отрисовки компоненты, он будет перенаправлен на страницу login.
-
-2. Connect создаёт контейнерную компоненту внутри которой отрисовывает другую компоненту и в виде пропсов передают в неё
+Connect создаёт контейнерную компоненту внутри которой отрисовывает другую компоненту и в виде пропсов передают в неё
 данные из объектов которые возвращаются двумя функциями. Когда происходят изменения, connect сам перерисовывает дерево.
 
 Вместо функции mapDispatchToProps вторым параметром мы передаем объект. Connect сам приведет его к виду:

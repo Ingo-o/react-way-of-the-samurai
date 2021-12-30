@@ -4,43 +4,34 @@ import {profileAPI} from "../api/api";
 // Action это объект содержащий информацию о том что мы хотим изменить.
 
 // ACTION CREATORS:
-const ADD_NEW_POST = 'ADD-NEW-POST';
+const ADD_NEW_POST = 'pirateSocialNetwork/profile/ADD-NEW-POST';
 export const addNewPost = (newPostText) => ({type: ADD_NEW_POST, newPostText});
 
-const SET_USER_PROFILE = 'SET_USER_PROFILE';
+const SET_USER_PROFILE = 'pirateSocialNetwork/profile/SET_USER_PROFILE';
 export const setUserProfile = (profile) => ({type: SET_USER_PROFILE, profile});
 
-const SET_USER_STATUS = 'SET_USER_STATUS';
+const SET_USER_STATUS = 'pirateSocialNetwork/profile/SET_USER_STATUS';
 export const setUserStatus = (newStatus) => ({type: SET_USER_STATUS, newStatus});
+
+const DELETE_POST = 'pirateSocialNetwork/profile/DELETE_POST';
+export const deletePost = (postId) => ({type: DELETE_POST, postId});
 
 // THUNKS это функции которые сначала делают асинхронные операции, а потом диспатчат actions.
 // Необходимые параметры передаются при помощи замыкания.
-export const getUserProfile = (userId) => {
-    return (dispatch) => {
-        profileAPI.getUserProfile(userId)
-            .then(data => {
-                dispatch(setUserProfile(data));
-            });
-    }
+export const getUserProfile = (userId) => async (dispatch) => {
+    const response = await profileAPI.getUserProfile(userId);
+    dispatch(setUserProfile(response));
 };
 
-export const getUserStatus = (userId) => {
-    return (dispatch) => {
-        profileAPI.getUserStatus(userId)
-            .then(data => {
-                dispatch(setUserStatus(data));
-            });
-    }
+export const getUserStatus = (userId) => async (dispatch) => {
+    const response = await profileAPI.getUserStatus(userId);
+    dispatch(setUserStatus(response));
 };
 
-export const updateUserStatus = (status) => {
-    return (dispatch) => {
-        profileAPI.updateUserStatus(status)
-            .then(data => {
-                if (data.resultCode === 0) {
-                    dispatch(setUserStatus(status));
-                }
-            });
+export const updateUserStatus = (status) => async (dispatch) => {
+    const response = await profileAPI.updateUserStatus(status);
+    if (response.resultCode === 0) {
+        dispatch(setUserStatus(status));
     }
 };
 
@@ -74,6 +65,11 @@ const profileReducer = (profileState = initialProfileState, action) => {
             return {
                 ...profileState,
                 status: action.newStatus,
+            };
+        case DELETE_POST:
+            return {
+                ...profileState,
+                posts: [...profileState.posts.filter(post => post.id !== action.postId)],
             };
         default:
             return profileState;

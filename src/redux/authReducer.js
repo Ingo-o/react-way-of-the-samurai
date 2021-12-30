@@ -5,7 +5,7 @@ import {stopSubmit} from "redux-form";
 // Action это объект содержащий информацию о том что мы хотим изменить.
 
 // ACTION CREATORS:
-const SER_AUTH_USER_DATA = 'SER_AUTH_USER_DATA';
+const SER_AUTH_USER_DATA = 'pirateSocialNetwork/auth/SER_AUTH_USER_DATA';
 export const setAuthUserData = (id, email, login, isAuth) => ({
     type: SER_AUTH_USER_DATA,
     data: {id, email, login, isAuth}
@@ -13,37 +13,33 @@ export const setAuthUserData = (id, email, login, isAuth) => ({
 
 // THUNKS это функции которые сначала делают асинхронные операции, а потом диспатчат actions.
 // Необходимые параметры передаются при помощи замыкания.
-export const getAuthUserData = () => (dispatch) => {
-    return authAPI.isIdentified().then(data => {
-        // Если пользователь идентефицирован - записываем информацию о нем в authState.
-        if (data.resultCode === 0) {
-            const {id, email, login} = data.data;
-            dispatch(setAuthUserData(id, email, login, true));
-        }
-    });
+export const getAuthUserData = () => async (dispatch) => {
+    const response = await authAPI.isIdentified();
+    // Если пользователь идентифицирован - записываем информацию о нем в authState.
+    if (response.resultCode === 0) {
+        const {id, email, login} = response.data;
+        dispatch(setAuthUserData(id, email, login, true));
+    }
 };
 
-export const login = (email, password, rememberMe) => (dispatch) => {
-    authAPI.login(email, password, rememberMe).then(data => {
-        // console.log(data);
-        if (data.resultCode === 0) {
-            dispatch(getAuthUserData());
-        } else {
-            // stopSubmit() – это action-creator из библиотеки redux-form, позволяющий в случае несрабатывания формы
-            // отобразить ошибку. 1 параметр - название формы, 2 параметр - поле и текст ошибки.
-            // _error означает что ошибка будет не на конкретное поле, а на всю форму.
-            const message = data.messages.length > 0 ? data.messages[0] : 'Something went wrong';
-            dispatch(stopSubmit('login', {_error: message}));
-        }
-    });
+export const login = (email, password, rememberMe) => async (dispatch) => {
+    const response = await authAPI.login(email, password, rememberMe);
+    if (response.resultCode === 0) {
+        dispatch(getAuthUserData());
+    } else {
+        // stopSubmit() – это action-creator из библиотеки redux-form, позволяющий в случае несрабатывания формы
+        // отобразить ошибку. 1 параметр - название формы, 2 параметр - поле и текст ошибки.
+        // _error означает что ошибка будет не на конкретное поле, а на всю форму.
+        const message = response.messages.length > 0 ? response.messages[0] : 'Something went wrong';
+        dispatch(stopSubmit('login', {_error: message}));
+    }
 };
 
-export const logout = () => (dispatch) => {
-    authAPI.logout().then(data => {
-        if (data.resultCode === 0) {
-            dispatch(setAuthUserData(null, null, null, false));
-        }
-    });
+export const logout = () => async (dispatch) => {
+    const response = await authAPI.logout();
+    if (response.resultCode === 0) {
+        dispatch(setAuthUserData(null, null, null, false));
+    }
 };
 
 const initialState = {

@@ -4,7 +4,7 @@ import {getAuthUserData} from "./authReducer";
 // Action это объект содержащий информацию о том что мы хотим изменить.
 
 // ACTION CREATORS:
-const INITIALIZED_SUCCESS = 'INITIALIZED_SUCCESS';
+const INITIALIZED_SUCCESS = 'pirateSocialNetwork/app/INITIALIZED_SUCCESS';
 export const initializeSuccess = () => ({type: INITIALIZED_SUCCESS});
 
 // THUNKS это функции которые сначала делают асинхронные операции, а потом диспатчат actions.

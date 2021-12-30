@@ -2,12 +2,9 @@ import css from "./ProfileInfo.module.css";
 import pirate_island from "./pirate_island.jpg";
 import Preloader from "../../common/Preloader/Preloader";
 import common_avatar from "../../../assets/images/common_avatar.jpg";
-import ProfileStatus from "./ProfileStatus";
 import ProfileStatusWithHooks from "./ProfileStatusWithHooks";
 
-const ProfileInfo = (props) => {
-    const {profile, status, updateUserStatus} = props;
-
+const ProfileInfo = ({profile, status, updateUserStatus}) => {
     // Пока информация о профайле не пришла с сервера - отображаем preloader.
     if (!profile) {
         return <Preloader/>;

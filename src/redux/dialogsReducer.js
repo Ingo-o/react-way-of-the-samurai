@@ -2,7 +2,7 @@
 // Action это объект содержащий информацию о том что мы хотим изменить.
 
 // ACTION CREATORS:
-const SEND_MESSAGE = 'SEND-MESSAGE';
+const SEND_MESSAGE = 'pirateSocialNetwork/dialogs/SEND-MESSAGE';
 export const sendMessage = (newMessageText) => ({type: SEND_MESSAGE, newMessageText});
 
 const initialDialogsState = {
