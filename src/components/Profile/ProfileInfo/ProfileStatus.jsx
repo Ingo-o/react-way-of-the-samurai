@@ -1,6 +1,7 @@
 import React from "react";
 
-// На данный момент используется другая компонента - ProfileStatusWithHooks.
+// На данный момент используется другая компонента.
+// ProfileStatusWithHooks - все то же самое, но при помощи хуков.
 
 class ProfileStatus extends React.Component {
     // Локальный state
@@ -29,7 +30,7 @@ class ProfileStatus extends React.Component {
     }
 
     // Вызывается при изменении state или props
-    componentDidUpdate(prevProps, prevState) {
+    componentDidUpdate(prevProps, prevState, nextProps) {
         if (prevProps.status !== this.props.status) {
             this.setState({
                 status: this.props.status
@@ -43,7 +44,7 @@ class ProfileStatus extends React.Component {
                 {this.state.editMode
                     ? <div><input onChange={this.onStatusChange} autoFocus={true} onBlur={this.deactivateEditMode}
                                   value={this.state.status}/></div>
-                    : <div onDoubleClick={this.activateEditMode}><span>{this.props.status || 'No status'}</span></div>
+                    : <div><span onDoubleClick={this.activateEditMode}>{this.props.status || 'No status'}</span></div>
                 }
             </div>
         )

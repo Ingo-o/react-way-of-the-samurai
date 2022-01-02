@@ -16,4 +16,4 @@ export default connect(mapStateToProps, {addNewPost})(MyPosts);
 
 // Вместо функции mapDispatchToProps вторым параметром мы передаем объект.
 // Connect сам приведет его к виду follow: (userId) => dispatch(followActionCreator(userId)).
-// Как и в случае с mapStateToProps, коллбеки будут переданы в презентационную компоненту в качестве пропсов.
+// Как и в случае с mapStateToProps, колбэки будут переданы в презентационную компоненту в качестве пропсов.

@@ -10,7 +10,7 @@ class ProfileContainer extends React.Component {
     // Этот метод вызывается сразу после вставки компоненты в DOM.
     // Он получает и устанавливает данные о пользовательском профайле.
     componentDidMount() {
-        const {getUserProfile, getUserStatus, authorizedUserId, isAuth} = this.props;
+        const {getUserProfile, getUserStatus, authorizedUserId} = this.props;
         let {userId} = this.props.match.params; // Эта информация приходит в пропсы благодаря обертке withRouter.
         if (!userId) {
             userId = authorizedUserId;
@@ -37,7 +37,6 @@ const mapStateToProps = (state) => ({
     profile: state.profileState.profile,
     status: state.profileState.status,
     authorizedUserId: state.authState.id,
-    isAuth: state.authState.isAuth,
 });
 
 // Объединение разных обработчиков функцией compose.
@@ -54,5 +53,5 @@ export default compose(
 
 Вместо функции mapDispatchToProps вторым параметром мы передаем объект. Connect сам приведет его к виду:
 follow: (userId) => dispatch(followActionCreator(userId)).
-Как и в случае с mapStateToProps, коллбеки будут переданы в презентационную компоненту в качестве пропсов.
+Как и в случае с mapStateToProps, колбэки будут переданы в презентационную компоненту в качестве пропсов.
 */

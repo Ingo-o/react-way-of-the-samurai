@@ -1,20 +1,10 @@
 import React from 'react';
 import './index.css';
-import store from "./redux/reduxStore";
 import reportWebVitals from './reportWebVitals';
 import ReactDOM from 'react-dom';
-import App from './App';
-import {BrowserRouter} from "react-router-dom";
-import {Provider} from "react-redux";
+import PiratesApp from "./App";
 
-ReactDOM.render(
-    // Для использования компоненты Route нужно обернуть код в котором она присутствует в BrowserRouter.
-    // Provider оборачивает основной компонент приложения и делает store доступным для дочерних компонент.
-    <BrowserRouter>
-        <Provider store={store}>
-            <App/>
-        </Provider>
-    </BrowserRouter>, document.getElementById('root'));
+ReactDOM.render(<PiratesApp />, document.getElementById('root'));
 
 // Из-за React.StrictMode массив users отрисовывался 2 раза подряд.
 

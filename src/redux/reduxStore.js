@@ -1,4 +1,4 @@
-import {applyMiddleware, combineReducers} from "redux";
+import {applyMiddleware, combineReducers, compose} from "redux";
 import profileReducer from "./profileReducer";
 import dialogsReducer from "./dialogsReducer";
 import usersReducer from "./usersReducer";
@@ -21,7 +21,9 @@ let reducers = combineReducers({
 
 // При помощи созданной выше функции создаём store.
 // applyMiddleware - создание промежуточного слоя для использования thunks.
-let store = createStore(reducers, applyMiddleware(thunkMiddleware));
+// composeEnhancers - подключение браузерного расширения Redux DevTools Extension.
+const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+const store = createStore(reducers, composeEnhancers(applyMiddleware(thunkMiddleware)));
 
-window.store = store;
+// window.store = store;
 export default store;

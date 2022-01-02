@@ -2,7 +2,7 @@ import css from "./Navbar.module.css";
 import {NavLink} from "react-router-dom";
 
 const Navbar = () => {
-    // NavLink меняет адрес в адреной строке не перезагружая страницу.
+    // NavLink меняет адрес в адресной строке не перезагружая страницу.
     return (
         <nav className={css.nav}>
             <div className={css.item}>
