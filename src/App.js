@@ -1,13 +1,13 @@
 import './App.css';
 import Navbar from './components/Navbar/Navbar';
-import {BrowserRouter, Route, withRouter} from "react-router-dom";
+import {BrowserRouter, HashRouter, Route, withRouter} from "react-router-dom";
 import News from "./components/News/News";
 import Music from "./components/Music/Music";
 import Settings from "./components/Settings/Settings";
 import UsersContainer from "./components/Users/UsersContainer";
 import HeaderContainer from "./components/Header/HeaderContainer";
 import Login from "./components/Login/Login";
-import React, {Component, Suspense} from "react";
+import React, {Component} from "react";
 import {connect, Provider} from "react-redux";
 import {compose} from "redux";
 import {initializeApp} from "./redux/appReducer";
@@ -66,11 +66,16 @@ const AppContainer = compose(
 const PiratesApp = () => {
     // Для использования компоненты Route нужно обернуть код в котором она присутствует в BrowserRouter.
     // Provider оборачивает основной компонент приложения и делает store доступным для дочерних компонент.
-    return <BrowserRouter>
+    // basename - настройка позволяющая работать без ошибок в разных средах (при запуске в браузере у нас один URL,
+    // при деплое на github pages другой и т. д.)
+    return <HashRouter>
         <Provider store={store}>
             <AppContainer/>
         </Provider>
-    </BrowserRouter>
+    </HashRouter>
 }
 
+// Для корректной работы на gh-pages мы используем <HashRouter> вместо <BrowserRouter>.
+// При использовании <BrowserRouter>, для корректного отображения URL нужно добавить атрибут:
+// basename={process.env.PUBLIC_URL}
 export default PiratesApp;
