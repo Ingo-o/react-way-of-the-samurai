@@ -16,6 +16,9 @@ export const setUserStatus = (newStatus) => ({type: SET_USER_STATUS, newStatus})
 const DELETE_POST = 'pirateSocialNetwork/profile/DELETE_POST';
 export const deletePost = (postId) => ({type: DELETE_POST, postId});
 
+const SAVE_PHOTO_SUCCESS = 'pirateSocialNetwork/profile/SAVE_PHOTO_SUCCESS'
+export const savePhotoSuccess = (photos) => ({type: SAVE_PHOTO_SUCCESS, photos});
+
 // THUNKS это функции которые сначала делают асинхронные операции, а потом диспатчат actions.
 // Необходимые параметры передаются при помощи замыкания.
 export const getUserProfile = (userId) => async (dispatch) => {
@@ -32,6 +35,13 @@ export const updateUserStatus = (status) => async (dispatch) => {
     const response = await profileAPI.updateUserStatus(status);
     if (response.resultCode === 0) {
         dispatch(setUserStatus(status));
+    }
+};
+
+export const savePhoto = (file) => async (dispatch) => {
+    const response = await profileAPI.savePhoto(file);
+    if (response.resultCode === 0) {
+        dispatch(savePhotoSuccess(response.data.photos));
     }
 };
 
@@ -70,6 +80,11 @@ const profileReducer = (profileState = initialProfileState, action) => {
             return {
                 ...profileState,
                 posts: [...profileState.posts.filter(post => post.id !== action.postId)],
+            };
+        case SAVE_PHOTO_SUCCESS:
+            return {
+                ...profileState,
+                profile: {...profileState.profile, photos: action.photos},
             };
         default:
             return profileState;

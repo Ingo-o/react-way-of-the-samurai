@@ -38,6 +38,16 @@ export const profileAPI = {
         return instance.put(`profile/status`, {status: status})
             .then(response => response.data);
     },
+    savePhoto(file) {
+        // В случае отправки файла, нужно подготовить специальную formData и добавить headers 3-м параметром.
+        const formData = new FormData();
+        formData.append("image", file);
+        return instance.put(`profile/photo`, formData, {
+            headers: {
+                'Content-Type': 'multipart/form-data'
+            }
+        }).then(response => response.data);
+    }
 };
 
 export const authAPI = {
