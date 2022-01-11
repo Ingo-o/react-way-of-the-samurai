@@ -1,4 +1,5 @@
 import {profileAPI} from "../api/api";
+import {stopSubmit} from "redux-form";
 
 // Reducer принимает на вход state и action и возвращает измененный (на основании action) state.
 // Action это объект содержащий информацию о том что мы хотим изменить.
@@ -42,6 +43,21 @@ export const savePhoto = (file) => async (dispatch) => {
     const response = await profileAPI.savePhoto(file);
     if (response.resultCode === 0) {
         dispatch(savePhotoSuccess(response.data.photos));
+    }
+};
+
+export const saveProfile = (profileData) => async (dispatch, getState) => {
+    const userId = getState().authState.id;
+    const response = await profileAPI.saveProfile(profileData);
+    if (response.resultCode === 0) {
+        dispatch(getUserProfile(userId));
+    } else {
+        // stopSubmit() – это action-creator из библиотеки redux-form, позволяющий в случае несрабатывания формы
+        // отобразить ошибку. 1 параметр - название формы, 2 параметр - поле и текст ошибки.
+        // _error означает что ошибка будет не на конкретное поле, а на всю форму.
+        const message = response.messages.length > 0 ? response.messages[0] : 'Something went wrong';
+        dispatch(stopSubmit('edit-profile', {_error: message}));
+        return Promise.reject(message);
     }
 };
 

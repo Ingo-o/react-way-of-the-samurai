@@ -10,3 +10,15 @@
     width: 250px;
     height: 250px;
 }
+
+.contact {
+    padding-left: 10px;
+    color: midnightblue;
+}
+
+.formError {
+    border: solid red 3px;
+    padding: 5px;
+    color: red;
+    font-weight: bold;
+}

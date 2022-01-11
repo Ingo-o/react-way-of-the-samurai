@@ -4,10 +4,15 @@ import MyPostsContainer from "./MyPosts/MyPostsContainer";
 import React from "react";
 
 const Profile = (props) => {
-    const {profile, status, updateUserStatus, isOwner, savePhoto} = props;
+    const {profile, status, updateUserStatus, isOwner, savePhoto, saveProfile} = props;
     return (
         <div>
-            <ProfileInfo savePhoto={savePhoto} isOwner={isOwner} profile={profile} status={status} updateUserStatus={updateUserStatus}/>
+            <ProfileInfo savePhoto={savePhoto}
+                         isOwner={isOwner}
+                         profile={profile}
+                         status={status}
+                         updateUserStatus={updateUserStatus}
+                         saveProfile={saveProfile}/>
             <MyPostsContainer/>
         </div>
     );
