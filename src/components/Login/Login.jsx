@@ -8,7 +8,7 @@ import {Redirect} from "react-router-dom";
 
 // Field - контейнерная компонента рисующая другую компоненту. Внутри Field уже зашиты onChange, которые будут
 // брать данные и отправлять их в state. Атрибут name - то под каким именем данные уйдут на сервер.
-const LoginForm = ({handleSubmit, error}) => {
+const LoginForm = ({handleSubmit, error, captchaURL}) => {
     // Дефолтное поведение кнопки в форме - сабмитить форму.
     // В форму в виде пропсов приходит много методов. Пропсы прокидывает наша HOC-контейнерная компонента.
     // Внутри handleSubmit вызовется onSubmit который мы передали в LoginReduxForm при отрисовке,
@@ -19,6 +19,10 @@ const LoginForm = ({handleSubmit, error}) => {
             {createField("Password", "password", [required], Input, {type: "password"})}
             {createField(null, "rememberMe", null, Input, {type: "checkbox"}, "Remember me")}
             {error && <div className={css.formSummaryError}>{error}</div>}
+
+            {captchaURL && <img src={captchaURL}/>}
+            {captchaURL && createField("Symbols from image", "captcha", [required], Input)}
+
             <div>
                 <button>Login</button>
             </div>
@@ -35,8 +39,8 @@ const LoginReduxForm = reduxForm({form: 'login'})(LoginForm);
 const Login = (props) => {
     // В "родительский" submit приходят все данные из формы.
     const onSubmit = (formData) => {
-        const {email, password, rememberMe} = formData;
-        props.login(email, password, rememberMe);
+        const {email, password, rememberMe, captcha} = formData;
+        props.login(email, password, rememberMe, captcha);
     }
 
     if (props.isAuth) {
@@ -46,13 +50,14 @@ const Login = (props) => {
     return (
         <div>
             <h1>Login</h1>
-            <LoginReduxForm onSubmit={onSubmit}/>
+            <LoginReduxForm onSubmit={onSubmit} captchaURL={props.captchaURL}/>
         </div>
     );
 };
 
 const mapStateToProps = (state) => ({
-    isAuth: state.authState.isAuth
+    isAuth: state.authState.isAuth,
+    captchaURL: state.authState.captchaURL,
 });
 
 // Раньше по дефолту экспортировался Login, а сейчас экспортируется безымянная контейнерна компонента
