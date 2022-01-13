@@ -33,9 +33,14 @@ export const getUserStatus = (userId) => async (dispatch) => {
 };
 
 export const updateUserStatus = (status) => async (dispatch) => {
-    const response = await profileAPI.updateUserStatus(status);
-    if (response.resultCode === 0) {
-        dispatch(setUserStatus(status));
+    // try/catch - отлов ошибки.
+    try {
+        const response = await profileAPI.updateUserStatus(status);
+        if (response.resultCode === 0) {
+            dispatch(setUserStatus(status));
+        }
+    } catch(error) {
+        // Обработка ошибки. Если перехватить её на этом уровне, то до глобального обработчика в App она не дойдет.
     }
 };
 

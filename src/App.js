@@ -1,6 +1,6 @@
 import './App.css';
 import Navbar from './components/Navbar/Navbar';
-import {BrowserRouter, HashRouter, Route, withRouter} from "react-router-dom";
+import {BrowserRouter, HashRouter, Redirect, Route, Switch, withRouter} from "react-router-dom";
 import News from "./components/News/News";
 import Music from "./components/Music/Music";
 import Settings from "./components/Settings/Settings";
@@ -22,10 +22,20 @@ const ProfileContainer = React.lazy(() => import("./components/Profile/ProfileCo
 const DialogsContainer = React.lazy(() => import("./components/Dialogs/DialogsContainer"));
 
 class App extends Component {
+    catchAllUnhandledErrors = (reason, promise) => {
+        alert("Some error occurred");
+    }
+
     // Узнаем идентифицирован пользователь или нет.
+    // Отлавливаем ошибки.
     componentDidMount() {
-        const {initializeApp} = this.props;
-        initializeApp();
+        this.props.initializeApp();
+        window.addEventListener("unhandledrejection", this.catchAllUnhandledErrors);
+    }
+
+    // Если в компоненте делается addEventListener, то в последствие должен быть обязательно сделан removeEventListener.
+    componentWillUnmount() {
+        window.removeEventListener("unhandledrejection", this.catchAllUnhandledErrors);
     }
 
     render() {
@@ -36,18 +46,25 @@ class App extends Component {
         // Route следит за адресной строкой браузера и, в случае её совпадения с path, запускает render данных.
         // "?" означает что параметр опциональный и <ProfileContainer/> будет рендериться и без него.
         // :userId? - значение этого параметра придет в пропсы через withRouter.
+
+        // При "exact path" компонента отрисуется только при точном соответствие пути.
+        // Switch идет сверху вниз по роутам и как только находит соответствие - отрисовывает компоненту и прекращает перебор.
         return (
             <div className='app-wrapper'>
                 <HeaderContainer/>
                 <Navbar/>
                 <div className='app-wrapper-content'>
-                    <Route path='/profile/:userId?' render={withSuspense(ProfileContainer)}/>
-                    <Route path='/dialogs' render={withSuspense(DialogsContainer)}/>
-                    <Route path='/users' render={() => <UsersContainer/>}/>
-                    <Route path='/news' render={() => <News/>}/>
-                    <Route path='/music' render={() => <Music/>}/>
-                    <Route path='/settings' render={() => <Settings/>}/>
-                    <Route path='/login' render={() => <Login/>}/>
+                    <Switch>
+                        <Route exact path='/' render={() => <Redirect to={'/profile'}/>}/>
+                        <Route path='/profile/:userId?' render={withSuspense(ProfileContainer)}/>
+                        <Route path='/dialogs' render={withSuspense(DialogsContainer)}/>
+                        <Route path='/users' render={() => <UsersContainer/>}/>
+                        <Route path='/news' render={() => <News/>}/>
+                        <Route path='/music' render={() => <Music/>}/>
+                        <Route path='/settings' render={() => <Settings/>}/>
+                        <Route path='/login' render={() => <Login/>}/>
+                        <Route path='*' render={() => <div>404 NOT FOUND</div>}/>
+                    </Switch>
                 </div>
             </div>
         );
