@@ -39,7 +39,7 @@ export const updateUserStatus = (status) => async (dispatch) => {
         if (response.resultCode === 0) {
             dispatch(setUserStatus(status));
         }
-    } catch(error) {
+    } catch (error) {
         // Обработка ошибки. Если перехватить её на этом уровне, то до глобального обработчика в App она не дойдет.
     }
 };

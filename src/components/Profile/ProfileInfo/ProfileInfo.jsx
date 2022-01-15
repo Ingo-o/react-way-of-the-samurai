@@ -22,8 +22,7 @@ const ProfileInfo = ({profile, status, updateUserStatus, isOwner, savePhoto, sav
     }
 
     // В "родительский" submit приходят все данные из формы.
-    // Конкретно тут сделано не совсем правильно. Нужно стремиться к "задиспатчил и забыл".
-    // А тут мы диспатчим и ждем... если все ок, то запускаем setEditMode.
+    // Конкретно тут сделано не совсем правильно. Нужно стремиться к отсутствию промисов в диспатчах.
     const onSubmit = (formData) => {
         saveProfile(formData)
             .then(() => {

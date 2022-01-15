@@ -1,5 +1,5 @@
 import {usersAPI} from "../api/api";
-import {updateObjectInArray} from "../utils/objects-helpers";
+import {newPropsForObjectInArray} from "../utils/objects-helpers";
 
 // Reducer принимает на вход state и action и возвращает измененный (на основании action) state.
 // Action это объект содержащий информацию о том что мы хотим изменить.
@@ -73,12 +73,12 @@ const usersReducer = (usersState = initialUsersState, action) => {
         case FOLLOW_SUCCESS:
             return {
                 ...usersState,
-                users: updateObjectInArray(usersState.users, action.userId, "id", {followed: true}),
+                users: newPropsForObjectInArray(usersState.users, action.userId, "id", {followed: true}),
             }
         case UNFOLLOW_SUCCESS:
             return {
                 ...usersState,
-                users: updateObjectInArray(usersState.users, action.userId, "id", {followed: false}),
+                users: newPropsForObjectInArray(usersState.users, action.userId, "id", {followed: false}),
             }
         case SET_USERS:
             return {...usersState, users: action.users};

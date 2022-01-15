@@ -2,20 +2,19 @@ import css from "./MyPosts.module.css";
 import Post from "./Post/Post";
 import React from "react";
 import {Field, reduxForm} from "redux-form";
-import {maxLengthCreator, required} from "../../../utils/validators/validators";
+import {maxLengthCreator, required} from "../../../utils/validators";
 import {Textarea} from "../../common/FormControls/FormControls";
 
 const maxLength10 = maxLengthCreator(10);
 
 const MyPosts = (props) => {
-    const {posts, addNewPost} = props;
 
-    const postItems = [...posts]
+    const postItems = [...props.posts]
         .reverse()
-        .map(p => <Post message={p.message} likesCount={p.likesCount} key={p.id} id={p.id}/>);
+        .map(post => <Post message={post.message} likesCount={post.likesCount} key={post.id} id={post.id}/>);
 
     const onAddingNewPost = (values) => {
-        addNewPost(values.newPostText);
+        props.addNewPost(values.newPostText);
     };
 
     return (

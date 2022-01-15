@@ -1,18 +1,19 @@
 import css from "../common/FormControls/FormControls.module.css";
 import {reduxForm} from "redux-form";
 import {createField, Input} from "../common/FormControls/FormControls";
-import {required} from "../../utils/validators/validators";
+import {required} from "../../utils/validators";
 import {connect} from "react-redux";
 import {login} from "../../redux/authReducer";
 import {Redirect} from "react-router-dom";
 
-// Field - контейнерная компонента рисующая другую компоненту. Внутри Field уже зашиты onChange, которые будут
-// брать данные и отправлять их в state. Атрибут name - то под каким именем данные уйдут на сервер.
+// Внутри Field уже зашиты onChange, который будет брать данные и отправлять их в state.
+// Атрибут name это то под каким именем данные уйдут на сервер.
+// В нашем случае, Field создается при помощи функции createField.
 const LoginForm = ({handleSubmit, error, captchaURL}) => {
     // Дефолтное поведение кнопки в форме - сабмитить форму.
-    // В форму в виде пропсов приходит много методов. Пропсы прокидывает наша HOC-контейнерная компонента.
+    // В форму в виде пропсов приходит много методов. Пропсы прокидывает HOC-компонента LoginReduxForm.
     // Внутри handleSubmit вызовется onSubmit который мы передали в LoginReduxForm при отрисовке,
-    // а в него придут все собранные данные из формы.
+    // а в него придут все собранные из формы данные.
     return (
         <form onSubmit={handleSubmit}>
             {createField("Email", "email", [required], Input)}
@@ -20,7 +21,7 @@ const LoginForm = ({handleSubmit, error, captchaURL}) => {
             {createField(null, "rememberMe", null, Input, {type: "checkbox"}, "Remember me")}
             {error && <div className={css.formSummaryError}>{error}</div>}
 
-            {captchaURL && <img src={captchaURL}/>}
+            {captchaURL && <img src={captchaURL} alt={"Captcha"}/>}
             {captchaURL && createField("Symbols from image", "captcha", [required], Input)}
 
             <div>
@@ -30,17 +31,15 @@ const LoginForm = ({handleSubmit, error, captchaURL}) => {
     );
 };
 
-// Форм будет много, поэтому каждой нужно своё уникальное имя (в данном случае - login)
-// В данном случае, LoginReduxForm является контейнерной компонентой над LoginForm.
-// Хоком через который будет осуществляться общение формы с редьюсером.
+// Форм будет много, поэтому каждой нужно своё уникальное имя (в данном случае - login).
+// LoginReduxForm это контейнерная компонентой над LoginForm. Это HOC через который будет осуществляться общение формы с редьюсером.
 const LoginReduxForm = reduxForm({form: 'login'})(LoginForm);
 
-// При отрисовке нашей контейнерной формы нужно передать в неё "родительский" submit.
+// При отрисовке формы (LoginReduxForm) нужно передать в неё "родительский" submit.
 const Login = (props) => {
     // В "родительский" submit приходят все данные из формы.
     const onSubmit = (formData) => {
-        const {email, password, rememberMe, captcha} = formData;
-        props.login(email, password, rememberMe, captcha);
+        props.login(formData.email, formData.password, formData.rememberMe, formData.captcha);
     }
 
     if (props.isAuth) {
@@ -60,6 +59,5 @@ const mapStateToProps = (state) => ({
     captchaURL: state.authState.captchaURL,
 });
 
-// Раньше по дефолту экспортировался Login, а сейчас экспортируется безымянная контейнерна компонента
-// которая образовалась с помощью хока connect.
+// По дефолту экспортируется безымянная контейнерна компонента, образовавшаяся при помощи хока connect.
 export default connect(mapStateToProps, {login})(Login);

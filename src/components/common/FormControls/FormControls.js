@@ -5,6 +5,8 @@ import {Field} from "redux-form";
 // meta - внутренняя деструктуризация.
 const FormControl = ({input, meta: {touched, error}, Formtype, ...props}) => { // rest-оператор
     const hasError = touched && error;
+    // && - the operator returns the value of the first falsy operand encountered when evaluating from left to right,
+    // or the value of the last operand if they are all truthy.
 
     return (
         <div className={css.formControl + " " + (hasError ? css.error : " ")}>
@@ -25,6 +27,3 @@ export const Textarea = (props) => {
 export const createField = (placeholder, name, validate, component, props = {}, text = "") => (
     <div><Field placeholder={placeholder} name={name} validate={validate} component={component} {...props}/>{text}</div>
 )
-
-// && - the operator returns the value of the first falsy operand encountered when evaluating from left to right,
-// or the value of the last operand if they are all truthy.

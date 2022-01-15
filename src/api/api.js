@@ -39,7 +39,7 @@ export const profileAPI = {
             .then(response => response.data);
     },
     savePhoto(file) {
-        // В случае отправки файла, нужно подготовить специальную formData и добавить headers 3-м параметром.
+        // В случае отправки файла, нужно подготовить специальную formData и третьим параметром добавить headers.
         const formData = new FormData();
         formData.append("image", file);
         return instance.put(`profile/photo`, formData, {

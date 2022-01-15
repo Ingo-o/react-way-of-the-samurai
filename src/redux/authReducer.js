@@ -37,7 +37,7 @@ export const login = (email, password, rememberMe, captcha) => async (dispatch) 
         if (response.resultCode === 10) {
             dispatch(getCaptchaURL())
         }
-        // stopSubmit() – это action-creator из библиотеки redux-form, позволяющий в случае несрабатывания формы
+        // stopSubmit() это action-creator из библиотеки redux-form, позволяющий в случае несрабатывания формы
         // отобразить ошибку. 1 параметр - название формы, 2 параметр - поле и текст ошибки.
         // _error означает что ошибка будет не на конкретное поле, а на всю форму.
         const message = response.messages.length > 0 ? response.messages[0] : 'Something went wrong';

@@ -2,10 +2,10 @@ import {createField, Input, Textarea} from "../../common/FormControls/FormContro
 import {reduxForm} from "redux-form";
 import css from "./ProfileInfo.module.css";
 
-// Само наличие кнопки в форме по умолчанию сабмитит форму.
+// Кнопка в форме по умолчанию сабмитит форму.
 const ProfileDataForm = ({handleSubmit, profile, error}) => {
     return <form onSubmit={handleSubmit}>
-        <div><button onClick={() => {}}>Save</button></div>
+        <div><button>Save</button></div>
         {error && <div className={css.formError}>{error}</div>}
         <div><b>Name:</b> {createField("Name", "fullName", [], Input)}</div>
         <div><b>Looking for a job:</b> {createField("", "lookingForAJob",

@@ -10,7 +10,7 @@ class ProfileContainer extends React.Component {
 
     refreshProfile() {
         const {getUserProfile, getUserStatus, authorizedUserId} = this.props;
-        let {userId} = this.props.match.params; // Эта информация приходит в пропсы благодаря обертке withRouter.
+        let {userId} = this.props.match.params; // Эта информация приходит в пропсы благодаря хоку withRouter.
         if (!userId) {
             userId = authorizedUserId;
             if (!userId) {
@@ -24,7 +24,7 @@ class ProfileContainer extends React.Component {
     }
 
     // Этот метод вызывается сразу после вставки компоненты в DOM.
-    // Он получает и устанавливает данные о пользовательском профайле.
+    // В данном случае, он получает и устанавливает данные о пользовательском профайле.
     componentDidMount() {
         this.refreshProfile();
     }
@@ -45,7 +45,7 @@ class ProfileContainer extends React.Component {
                      saveProfile={saveProfile}/>
         );
     }
-};
+}
 
 // Возвращает объект с данными из state которые будут переданы в презентационную компоненту в качестве пропсов.
 const mapStateToProps = (state) => ({
@@ -61,10 +61,10 @@ export default compose(
 )(ProfileContainer);
 
 /*
-1. withRouter - HOC-обертка передающая в компоненту данные из URL.
+withRouter это HOC-обертка передающая в компоненту данные из URL.
 
-2. Connect создаёт контейнерную компоненту вокруг другой компоненты и в виде пропсов передают в неё данные из объектов
-которые возвращаются двумя функциями. Когда происходят изменения, connect сам перерисовывает дерево.
+Connect создаёт контейнерную компоненту внутри которой отрисовывает другую компоненту и в виде пропсов передают в неё
+данные из объектов которые возвращаются двумя функциями. Когда происходят изменения, connect перерисовывает компоненту.
 
 Вместо функции mapDispatchToProps вторым параметром мы передаем объект. Connect сам приведет его к виду:
 follow: (userId) => dispatch(followActionCreator(userId)).

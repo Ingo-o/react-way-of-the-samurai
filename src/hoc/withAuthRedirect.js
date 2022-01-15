@@ -11,11 +11,9 @@ const mapStateToPropsForRedirect = (state) => ({isAuth: state.authState.isAuth})
 
 // Если пользователь не авторизован, то вместо отрисовки компоненты, он будет перенаправлен на страницу login.
 const withAuthRedirectComponent = (Component) => {
-
     class RedirectComponent extends React.Component {
         render() {
-            const {isAuth} = this.props;
-            if (!isAuth) return <Redirect to={'/login'}/>;
+            if (!this.props.isAuth) return <Redirect to={'/login'}/>;
             return <Component {...this.props}/>;
         }
     }

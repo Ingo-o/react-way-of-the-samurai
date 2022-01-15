@@ -4,8 +4,7 @@ import reportWebVitals from './reportWebVitals';
 import ReactDOM from 'react-dom';
 import PiratesApp from "./App";
 
-ReactDOM.render(<PiratesApp />, document.getElementById('root'));
-
+ReactDOM.render(<PiratesApp/>, document.getElementById('root'));
 // Из-за React.StrictMode массив users отрисовывался 2 раза подряд.
 
 // If you want to start measuring performance in your app, pass a function

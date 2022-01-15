@@ -17,7 +17,7 @@ import withSuspense from "./hoc/withSuspense";
 
 // Импорт при помощи React.lazy означает что этого модуля не будет в базовой загрузке.
 // Он будет загружен только когда потребуется.
-// Для работы в этом режиме, компонента должна находится внутри тега <Suspense>. Используем HOC withSuspense.
+// Для работы в этом режиме, компонента должна находится внутри тега <Suspense>.
 const ProfileContainer = React.lazy(() => import("./components/Profile/ProfileContainer"));
 const DialogsContainer = React.lazy(() => import("./components/Dialogs/DialogsContainer"));
 
@@ -26,8 +26,7 @@ class App extends Component {
         alert("Some error occurred");
     }
 
-    // Узнаем идентифицирован пользователь или нет.
-    // Отлавливаем ошибки.
+    // Узнаем идентифицирован пользователь или нет и отлавливаем ошибки.
     componentDidMount() {
         this.props.initializeApp();
         window.addEventListener("unhandledrejection", this.catchAllUnhandledErrors);
@@ -82,17 +81,15 @@ const AppContainer = compose(
 
 const PiratesApp = () => {
     // Для использования компоненты Route нужно обернуть код в котором она присутствует в BrowserRouter.
-    // Provider оборачивает основной компонент приложения и делает store доступным для дочерних компонент.
-    // basename - настройка позволяющая работать без ошибок в разных средах (при запуске в браузере у нас один URL,
-    // при деплое на github pages другой и т. д.)
+    // Provider оборачивает основной компонент приложения и делает store доступным для дочерних компонент (контекст).
     return <HashRouter>
         <Provider store={store}>
             <AppContainer/>
         </Provider>
     </HashRouter>
 }
-
-// Для корректной работы на gh-pages мы используем <HashRouter> вместо <BrowserRouter>.
-// При использовании <BrowserRouter>, для корректного отображения URL нужно добавить атрибут:
-// basename={process.env.PUBLIC_URL}
+// Для корректной работы на gh-pages мы используем олдскульный <HashRouter> вместо <BrowserRouter>.
+// При использовании <BrowserRouter>, для корректного отображения URL нужно добавить атрибут: basename={process.env.PUBLIC_URL}.
+// basename - настройка позволяющая работать без ошибок в разных средах (при запуске в браузере у нас один URL,
+// при деплое на github pages другой и т. д.)
 export default PiratesApp;

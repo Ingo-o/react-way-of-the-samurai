@@ -29,7 +29,7 @@ class ProfileStatus extends React.Component {
         })
     }
 
-    // Вызывается при изменении state или props
+    // Вызывается при изменении state или props.
     componentDidUpdate(prevProps, prevState, nextProps) {
         if (prevProps.status !== this.props.status) {
             this.setState({

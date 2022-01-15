@@ -2,8 +2,12 @@ import React from "react";
 import Paginator from "../common/Paginator/Paginator";
 import User from "./User";
 
-const Users = (props) => {
-    const {follow, unfollow, users, pageSize, totalUsersCount, currentPage, onPageChange, followingInProgress} = props;
+const Users = ({
+                   follow, unfollow, users,
+                   pageSize, totalUsersCount,
+                   currentPage, onPageChange,
+                   followingInProgress
+               }) => {
 
     return (
         <div>

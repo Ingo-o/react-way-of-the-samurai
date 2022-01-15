@@ -15,18 +15,17 @@ import {
 // Вторая контейнерная компонента которая делает AJAX-запросы и отрисовывает презентационную компоненту.
 class UsersContainer extends React.Component {
     // Этот метод вызывается сразу после вставки компоненты в DOM.
-    // Он отрисовывает ПЕРВУЮ страницу пользователей и передает в totalUsersCount их общее количество.
+    // В данном случае он отрисовывает первую страницу пользователей
+    // и передает в totalUsersCount их общее количество.
     componentDidMount() {
-        const {pageSize, currentPage, requestUsers} = this.props;
-        requestUsers(currentPage, pageSize);
+        this.props.requestUsers(this.props.currentPage, this.props.pageSize);
     }
 
     // Этот метод срабатывает на клик.
-    // Он изменяет currentPage и отрисовывает НУЖНУЮ НАМ страницу пользователей.
+    // Он изменяет currentPage и отрисовывает нужную нам страницу пользователей.
     // На момент вызова этого AJAX пропсы еще не вернулись, поэтому используем pageNumber а не currentPage.
     onPageChange = (pageNumber) => {
-        const {requestUsers, pageSize} = this.props;
-        requestUsers(pageNumber, pageSize);
+        this.props.requestUsers(pageNumber, this.props.pageSize);
     }
 
     render() {
@@ -62,7 +61,7 @@ export default compose(
 
 /*
 Connect создаёт контейнерную компоненту внутри которой отрисовывает другую компоненту и в виде пропсов передают в неё
-данные из объектов которые возвращаются двумя функциями. Когда происходят изменения, connect сам перерисовывает дерево.
+данные из объектов которые возвращаются двумя функциями. Когда происходят изменения, connect перерисовывает компоненту.
 
 Вместо функции mapDispatchToProps вторым параметром мы передаем объект. Connect сам приведет его к виду:
 follow: (userId) => dispatch(followActionCreator(userId)).

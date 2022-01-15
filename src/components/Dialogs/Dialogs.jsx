@@ -4,7 +4,7 @@ import MessageItem from "./MessageItem/MessageItem";
 import React from "react";
 import {Field, reduxForm} from "redux-form";
 import {Textarea} from "../common/FormControls/FormControls";
-import {maxLengthCreator, required} from "../../utils/validators/validators";
+import {maxLengthCreator, required} from "../../utils/validators";
 
 const maxLength50 = maxLengthCreator(50);
 
@@ -12,8 +12,9 @@ const Dialogs = (props) => {
     const {dialogs, messages} = props.dialogsState;
     const {sendMessage} = props;
 
-    const dialogItems = dialogs.map(d => <DialogItem name={d.name} key={d.id} id={d.id}/>);
-    const messageItems = messages.map(m => <MessageItem message={m.message} key={m.id} id={m.id}/>);
+    const dialogItems = dialogs.map(dialog => <DialogItem name={dialog.name} key={dialog.id} id={dialog.id}/>);
+    const messageItems = messages.map(message => <MessageItem message={message.message} key={message.id}
+                                                              id={message.id}/>);
 
     const addNewMessage = (values) => {
         sendMessage(values.newMessageText);
@@ -21,9 +22,7 @@ const Dialogs = (props) => {
 
     return (
         <div className={css.dialogs}>
-            <div className={css.dialogsItems}>
-                {dialogItems}
-            </div>
+            <div className={css.dialogsItems}>{dialogItems}</div>
             <div className={css.messages}>
                 <div>{messageItems}</div>
                 <AddMessageReduxForm onSubmit={addNewMessage}/>

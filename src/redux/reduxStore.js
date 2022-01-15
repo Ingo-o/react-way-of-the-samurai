@@ -16,7 +16,7 @@ let reducers = combineReducers({
     usersState: usersReducer,
     authState: authReducer,
     appState: appReducer,
-    form: formReducer, // Reducer библиотеки redux-form (state должен называться именно form).
+    form: formReducer, // Reducer библиотеки redux-form (state обязательно должен называться "form").
 });
 
 // При помощи созданной выше функции создаём store.
