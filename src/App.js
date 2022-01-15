@@ -23,7 +23,7 @@ const DialogsContainer = React.lazy(() => import("./components/Dialogs/DialogsCo
 
 class App extends Component {
     catchAllUnhandledErrors = (reason, promise) => {
-        alert("Some error occurred");
+        // alert("Some error occurred");
     }
 
     // Узнаем идентифицирован пользователь или нет и отлавливаем ошибки.
