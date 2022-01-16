@@ -6,13 +6,17 @@ import React from "react";
 const Profile = ({profile, status, updateUserStatus, isOwner, savePhoto, saveProfile}) => {
     return (
         <div>
-            <ProfileInfo savePhoto={savePhoto}
-                         isOwner={isOwner}
-                         profile={profile}
-                         status={status}
-                         updateUserStatus={updateUserStatus}
-                         saveProfile={saveProfile}/>
-            <MyPostsContainer/>
+            <div className={css.left}>
+                <ProfileInfo savePhoto={savePhoto}
+                             isOwner={isOwner}
+                             profile={profile}
+                             status={status}
+                             updateUserStatus={updateUserStatus}
+                             saveProfile={saveProfile}/>
+            </div>
+            <div>
+                <MyPostsContainer/>
+            </div>
         </div>
     );
 };
